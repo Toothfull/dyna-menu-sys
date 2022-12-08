@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>DMS Login</title>
+	<title>DMS Panel</title>
 
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,94 +9,228 @@
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
-</head>
-<body>
-	<div id="Overlay" class="container-fluid bg-dark">
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-		<div id="Navigation bar" class="row">
-			<nav class="navbar navbar-expand-lg bg-primary">
-				<div class="col-2 bg-danger text-left">
-					<span class="align-middle">
+
+</head>
+<body class="bg-secondary">
+	<div id="Overlay" class="container-fluid fixed-top">
+
+		<div id="Navigation bar" class="row bg-primary">
+			<nav class="navbar navbar-expand-lg">
+				<div class="col-2 text-left">
+					<span class="align-middle fs2 text-light m-1">
 						Uploaded 01/01/2022 00:00:00
 					</span>
 				</div>
-				<div class="col-8 bg-light text-center">
+				<div class="col-8 text-light fs-3 text-center">
 					<span class="align-middle">
 						This is a very important document
 					</span>
 				</div>
-				<div class="col-2 bg-danger text-end">
-					<span class="align-middle">
-						<img class="rounded-circle me-1" src="https://via.placeholder.com/512" alt="Profile Picture" width="50" height="50">
-					</span>
+				<div class="col-2 text-end">
+					<div class="row">
+						<div class="col-4">
+							
+						</div>
+						<div class="col-8">
+							<span class="align-middle">
+			
+								<div class="dropdown me-1 text-end">
+									<button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+										<img class="rounded-circle" src="https://via.placeholder.com/512" alt="Profile Picture" width="50" height="50">
+									</button>
+									<ul class="dropdown-menu bg-primary" aria-labelledby="dropdownMenuButton1">
+										<li><a class="dropdown-item text-light" href="#">Action</a></li>
+										<li><a class="dropdown-item text-light" href="#">Another action</a></li>
+										<li><a class="dropdown-item text-light" href="#">Something else here</a></li>
+									</ul>
+								</div>
+		
+							</span>
+						</div>
+					</div>
+					
 				</div>
 
 			</nav>
 		</div>
 
-		<div id="Menu bar" class="row fixed-bottom">
-			<div class="col-3 bg-danger text-left">
-				<span class="align-middle">
-					Profile
-				</span>
+		
+
+		<div class="row bg-success col-2 m-2 overflow-auto rounded-4" style="height: 400px;">
+
+			<div class="col-lg-6 p-2 align-self-center">
+				<div class="bg-light" style="height: 60px;">
+
+				</div>
+
+
 			</div>
-			<div class="col-6 bg-light align-self-end">
+			<div class="col-lg-6 p-2 align-self-center">
+				<div>
+					<div class="bg-light" style="height: 60px;">
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-lg-6 p-2 align-self-center">
+				<div class="bg-light" style="height: 60px;">
+
+				</div>
+
+
+			</div>
+			<div class="col-lg-6 p-2 align-self-center">
+				<div>
+					<div class="bg-light" style="height: 60px;">
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-lg-6 p-2 align-self-center">
+				<div class="bg-light" style="height: 60px;">
+
+				</div>
+
+
+			</div>
+			<div class="col-lg-6 p-2 align-self-center">
+				<div>
+					<div class="bg-light" style="height: 60px;">
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-lg-6 p-2 align-self-center">
+				<div class="bg-light" style="height: 60px;">
+
+				</div>
+
+
+			</div>
+			<div class="col-lg-6 p-2 align-self-center">
+				<div>
+					<div class="bg-light" style="height: 60px;">
+
+					</div>
+
+				</div>
+			</div>
+			
+
+		</div>
+	
+
+		<div id="Menu bar" class="row fixed-bottom">
+			<div class="col-3 text-left">
+
+			</div>
+			<div class="col-6 align-self-end">
 							
-					<div class="row bg-dark p-3 rounded-4 m-1">
-						<div class="col-2 bg-light text-center">
+					<div class="row bg-primary p-3 rounded-4 m-1">
+						<div class="col-2 text-center">
 							<img class="rounded-circle img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 						</div>
-						<div class="col-2 bg-light text-center">
+						<div class="col-2 text-center">
 							<img class="rounded-circle img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 						</div>
-						<div class="col-2 bg-light text-center">
+						<div class="col-2 text-center">
 							<img class="rounded-circle img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 						</div>
-						<div class="col-2 bg-light text-center">
+						<div class="col-2 text-center">
 							<img class="rounded-circle img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 						</div>
-						<div class="col-2 bg-light text-center">
+						<div class="col-2 text-center">
 							<img class="rounded-circle img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 						</div>
-						<div class="col-2 bg-light text-center">
+						<div class="col-2 text-center">
 							<img class="rounded-circle img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 						</div>
-						
 						
 					</div>
 				
 			</div>
 
-			<div class="col-3 bg-danger">
-			
-					<div class="row justify-content-end m-1">
-						<div class="w-25 bg-light rounded">
+			<div class="col-3">
 
-							<div class="row">
-								<div class="col-6 text-center">
-										<img class="rounded" src="https://via.placeholder.com/512" alt="Profile Picture" width="35" height="50">
-								</div>
-								<div class="col-6 align-middle text-center">
-									<span class="align-middle fs-2">
-										12
-									</span>
-								</div>
+				<div class="row">
+					<div class="col-6 text-center align-middle">
+						
+					</div>
+
+					<div class="col-6 text-center align-middle">
+						<div class="row">
+							<div class="col-6 text-end p-0">
+								<img class="rounded" src="https://via.placeholder.com/512" alt="Profile Picture" width="48" height="48">
+								
+							</div>
+							<div class="col-lg-6 text-start">
+								<span class="fs-2">12</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<img class="rounded-circle m-3" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 							</div>
 							
 						</div>
 					</div>
+				</div>
 
-					<div class="row justify-content-end text-end">
-						<div class="col-12">
-							<img class="rounded-circle m-3" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
-						</div>
-					</div>
-					
 			</div>
 		</div>
 
 	</div>		
 
+
+	<div id="Canvas" class="container-fluid">
+
+		<div class="row">
+			<div class="col-3">
+
+			</div>
+
+			<div class="col-lg-6 bg-light align-self-center" style="margin-top: 100px; margin-bottom: 150px;">
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
+
+
+			</div>
+
+			<div class="col-3">
+				
+			</div>
+		</div>
+
+		
+	</div>
 
 
 
