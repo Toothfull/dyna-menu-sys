@@ -1,0 +1,32 @@
+name: dyna-menu-sys-testing
+
+on: 
+  push:
+    paths:
+      - 'Browser/**'
+      - '.github/workflows/test'
+    branches:
+      - '**'
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Validate
+        uses: Cyb3r-Jak3/html5validator-action
+        with:
+          root: ./Browser
+          css: true
+          blacklist: ./assets
+      - name: Upload log
+        uses: actions/upload-artifact@v3
+        with:
+          name: log
+          path: log.log
+        
