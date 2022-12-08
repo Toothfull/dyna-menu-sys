@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'Browser/**'
-      - '.github/workflows/test'
+      - '.github/workflows/test.yml'
     branches:
       - '**'
 
