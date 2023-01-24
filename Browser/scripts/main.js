@@ -6,3 +6,11 @@ $('#googleOAuth').click(function() {
 	});
 	
 });
+
+//on load
+$(function() {
+	//get the user's name
+	$.get('/session', function(data) {
+		console.log(data);
+	});
+});

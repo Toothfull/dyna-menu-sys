@@ -1,0 +1,35 @@
+{
+  "name": "dyna-menu-sys",
+  "version": "1.0.0",
+  "description": "Menu system",
+  "main": "./emit/main.js",
+  "scripts": {
+    "start" : "npx tsc && node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toothfull/dyna-menu-sys.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toothfull/dyna-menu-sys/issues"
+  },
+  "homepage": "https://github.com/toothfull/dyna-menu-sys#readme",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.16",
+    "@types/express-session": "^1.17.5",
+    "@types/mongodb": "^4.0.7",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongodb": "^4.13.0",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "^8.32.0"
+  }
+}
