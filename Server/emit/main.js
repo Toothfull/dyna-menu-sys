@@ -85,26 +85,24 @@ app.get('/authorisedoauth', (request, response) => __awaiter(void 0, void 0, voi
             console.log(newUser);
             console.log('new user added');
         }
-        //request.session.regenerate(async () => {
-        console.log(request.sessionID);
-        request.session.idoooo = id;
-        console.log(request.session.idoooo);
-        /*request.session.email = email;
-        request.session.name = name;
-        request.session.pictureLink = pictureLink;*/
-        const isVerified = yield (0, mongo_1.verifyUser)(id);
-        if (isVerified) {
-            response.redirect('/index.html');
-        }
-        else {
-            response.send('not verified');
-        }
-        //})
+        request.session.regenerate(() => __awaiter(void 0, void 0, void 0, function* () {
+            request.session.googleid = id;
+            request.session.email = email;
+            request.session.name = name;
+            request.session.pictureLink = pictureLink;
+            const isVerified = yield (0, mongo_1.verifyUser)(id);
+            if (isVerified) {
+                response.redirect('/index.html');
+            }
+            else {
+                response.send('not verified');
+            }
+        }));
     }
 }));
 app.get('/session', (request, response) => {
     response.send({
-        id: request.session.id,
+        id: request.session.googleid,
         email: request.session.email,
         name: request.session.name,
         pictureLink: request.session.pictureLink

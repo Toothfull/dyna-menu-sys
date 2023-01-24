@@ -11,7 +11,7 @@ const clientSecret = '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'
 
 declare module 'express-session' {
 	export interface SessionData {
-		idoooo: string;
+		googleid: string;
 		email: string;
 		name: string;
 		pictureLink: string;
@@ -95,32 +95,25 @@ app.get('/authorisedoauth', async (request, response) => {
 			console.log('new user added')
 		}
 
-		//request.session.regenerate(async () => {
-		console.log(request.sessionID)
-		request.session.idoooo = id
-		console.log(request.session.idoooo)
+		request.session.regenerate(async () => {
+			request.session.googleid = id
+			request.session.email = email
+			request.session.name = name
+			request.session.pictureLink = pictureLink
 
-		/*request.session.email = email;
-		request.session.name = name;
-		request.session.pictureLink = pictureLink;*/
-
-		const isVerified = await verifyUser(id)
-		if (isVerified){
-			response.redirect('/index.html')
-		} else {
-			response.send('not verified')
-		}
-			
-			
-			
-			
-		//})
+			const isVerified = await verifyUser(id)
+			if (isVerified){
+				response.redirect('/index.html')
+			} else {
+				response.send('not verified')
+			}
+		})
 	}
 })
 
 app.get('/session', (request, response) => {
 	response.send({
-		id: request.session.id,
+		id: request.session.googleid,
 		email: request.session.email,
 		name: request.session.name,
 		pictureLink: request.session.pictureLink
