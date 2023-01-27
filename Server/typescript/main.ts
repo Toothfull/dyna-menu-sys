@@ -1,14 +1,43 @@
-
 import express from 'express'
 import expressSession from 'express-session'
 
-import { addUser, initialConnection, verifyUser } from './mongo'
+import { addUser, initialConnection, verifyUser, insertMenuDocument, getMenuDocument } from './mongo'
+
+import { configure, getLogger } from 'log4js'
+configure( {
+	appenders: {
+		console: { type: 'stdout' },
+		//file: { type: "file", filename: "./logs/server.log" }
+	},
+	categories: {
+		'default': { appenders: [ 'console' ], level: 'info' },
+		'main': { appenders: [ 'console' ], level: 'info' },
+		'mongo': { appenders: [ 'console' ], level: 'info' },
+	}
+} )
+const log = getLogger( 'main' )
+
+import multer from 'multer'
+const upload = multer({
+	dest: './uploads/',
+	fileFilter : function (req, file, cb) {
+		if (file.mimetype !== 'text/plain') {
+			log.info('file not accepted')
+			log.info(file.originalname, file.mimetype)
+			return cb(null, false)
+		} else {
+			log.info('file accepted')
+			return cb(null, true)
+		}
+	}
+})
+
+import fs from 'fs'
 
 const app = express()
 const port = 9000 
 const clientID = '604742774438-n3saa7d0qp5qi5m5cau1ugd3ee6ih942.apps.googleusercontent.com'
 const clientSecret = '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'
-
 declare module 'express-session' {
 	export interface SessionData {
 		googleid: string;
@@ -34,7 +63,7 @@ app.use( expressSession( {
 } ) )
 
 app.get('/oauthlink', (_, response) => {
-	//console.log('got')
+	//log.info('got')
 	const state = randomString(16)
 	response.send(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientID}&redirect_uri=http://localhost:9000/authorisedoauth&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&access_type=online&state=${state}&prompt=consent&include_granted_scopes=true`)
 }) 
@@ -49,7 +78,7 @@ app.get('/authorisedoauth', async (request, response) => {
 	if (authCode == null || scope == null || state == null || authUser == null || prompt == null) {
 		response.send('Error')
 	} else {
-		//console.log(authCode, scope, state, authUser, prompt)
+		//log.info(authCode, scope, state, authUser, prompt)
 
 		const googleData = new URLSearchParams({
 			'code': authCode,
@@ -89,10 +118,10 @@ app.get('/authorisedoauth', async (request, response) => {
 
 		const newUser = await addUser(email, id, name, pictureLink)
 		if (!newUser){
-			console.log('failed to insert new user')
+			log.info('failed to insert new user')
 		} else {
-			console.log(newUser)
-			console.log('new user added')
+			log.info(newUser)
+			log.info('new user added')
 		}
 
 		request.session.regenerate(async () => {
@@ -120,12 +149,37 @@ app.get('/session', (request, response) => {
 	})
 })
 
-
-app.listen(port, async () => {
-	console.log('Example app listening on port ' + port)
-	await initialConnection()
+app.put('/upload', upload.single('file'), async (request, response) => {
+	const file = request.file
+	if (file == null) {
+		log.info('No file uploaded')
+	} else {
+		log.info('File uploaded')
+		const fileLines = breakApartFile(file.path)
+		try {
+			await insertMenuDocument(fileLines)
+			fs.rmSync(file.path)
+		} catch (error) {
+			log.error(error)
+			log.info('Failed to insert menu document and delete local files')
+		}
+		
+		log.info(fileLines)
+	}
+	response.send('File uploaded')
 })
 
+app.get('/latest', async (request, response) => {
+	const latestMenu = await getMenuDocument()
+	response.send({
+		latestMenu: latestMenu
+	})
+})
+
+app.listen(port, async () => {
+	log.info('Example app listening on port ' + port)
+	await initialConnection()
+})
 
 //Create a function which creates a random 16 character string
 function randomString(length: number) {
@@ -136,4 +190,13 @@ function randomString(length: number) {
 		result += characters.charAt(Math.floor(Math.random() * charactersLength))
 	}
 	return result
+}
+
+//Create a function that reads a file
+function breakApartFile(path: string) {
+	const selectedFile = fs.readFileSync(path)
+	const fileData = selectedFile.toString()
+
+	const fileDataArray = fileData.split('\n')
+	return fileDataArray
 }

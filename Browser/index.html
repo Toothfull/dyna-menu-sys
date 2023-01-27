@@ -20,15 +20,15 @@
 
 		<div id="Navigationbar" class="row bg-primary">
 			<nav class="navbar navbar-expand-lg">
-				<div class="col-2 text-left">
-					<span class="align-middle fs2 text-light m-1">
+				<div class="col-2 text-center">
+					<span id="uploadDocument" class="align-middle fs2 text-light m-1" style="cursor: pointer;">
 						Uploaded 01/01/2022 00:00:00
 					</span>
+					<input id="uploadFile" type="file" style="display: none"> <!-- accept="text/plain" -->
 				</div>
 				<div class="col-8 text-light fs-3 text-center">
 					<span class="align-middle">
 						This is a very important document
-					</span>
 				</div>
 				<div class="col-2 text-end">
 					<div class="row">
@@ -40,7 +40,7 @@
 			
 								<div class="dropdown me-1 text-end">
 									<button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-										<img id="profileImage" class="rounded-circle" src="https://via.placeholder.com/512" alt="Profile Picture" width="50" height="50">
+										<img id="profileImage" class="rounded-circle" src="https://via.placeholder.com/512" alt="Profile Picture" width="50" height="50" referrerpolicy="no-referrer">
 									</button>
 									<ul class="dropdown-menu bg-primary" aria-labelledby="dropdownMenuButton1">
 										<li><a class="dropdown-item text-light" href="#">Action</a></li>
@@ -57,77 +57,6 @@
 
 			</nav>
 		</div>
-
-		
-
-	<!--	<div class="row bg-success col-2 m-2 overflow-auto rounded-4" style="height: 400px;">
-
-			<div class="col-lg-6 p-2 align-self-center">
-				<div class="bg-light" style="height: 60px;">
-
-				</div>
-
-
-			</div>
-			<div class="col-lg-6 p-2 align-self-center">
-				<div>
-					<div class="bg-light" style="height: 60px;">
-
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-6 p-2 align-self-center">
-				<div class="bg-light" style="height: 60px;">
-
-				</div>
-
-
-			</div>
-			<div class="col-lg-6 p-2 align-self-center">
-				<div>
-					<div class="bg-light" style="height: 60px;">
-
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-6 p-2 align-self-center">
-				<div class="bg-light" style="height: 60px;">
-
-				</div>
-
-
-			</div>
-			<div class="col-lg-6 p-2 align-self-center">
-				<div>
-					<div class="bg-light" style="height: 60px;">
-
-					</div>
-
-				</div>
-			</div>
-
-			<div class="col-lg-6 p-2 align-self-center">
-				<div class="bg-light" style="height: 60px;">
-
-				</div>
-
-
-			</div>
-			<div class="col-lg-6 p-2 align-self-center">
-				<div>
-					<div class="bg-light" style="height: 60px;">
-
-					</div>
-
-				</div>
-			</div>
-			
-
-		</div> -->
 	
 
 		<div id="Menubar" class="row fixed-bottom">
@@ -179,7 +108,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-12">
+							<div id="uploadButton" class="col-12">
 								<img class="rounded-circle m-3" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
 							</div>
 							
@@ -200,7 +129,7 @@
 
 			</div>
 
-			<div class="col-lg-6 bg-light align-self-center" style="margin-top: 100px; margin-bottom: 150px;">
+			<div id="menuView" class="col-lg-6 bg-light align-self-center" style="margin-top: 100px; margin-bottom: 150px;">
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
@@ -220,8 +149,6 @@
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
 				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint ipsam dolore sequi, dignissimos, deleniti eligendi adipisci maxime repellat ea commodi ipsum reiciendis inventore molestiae provident fugiat expedita cum aperiam esse!</p><br>
-
-
 			</div>
 
 			<div class="col-3">
