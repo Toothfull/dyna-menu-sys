@@ -33,6 +33,7 @@ if (process.env.COLLECTIONNAME2==undefined){
 interface menuDocument extends WithId <Document> {
 	timestamp: Date
 	fileLines : string[]
+	fileName : string
 } 
 
 const userName = process.env.USERNAME
@@ -117,11 +118,12 @@ export async function verifyUser (id : string) {
 	}
 }
 
-export async function insertMenuDocument (fileLines : string[]){
+export async function insertMenuDocument (fileLines : string[], fileName : string){
 	const database = client.db(databaseName)
 	const menuCollection = database.collection(collectionName1)
 	try {
 		await menuCollection.insertOne({
+			fileName : fileName.replace('.txt', ''),
 			timestamp : new Date(),
 			fileLines : fileLines
 		})
@@ -136,7 +138,7 @@ export async function getMenuDocument (){
 	const menuCollection = database.collection<menuDocument>(collectionName1)
 	try {
 		const menuDocument = await menuCollection.find().sort({timestamp: -1}).limit(1).toArray()
-		return menuDocument[0].fileLines
+		return menuDocument[0]
 	} catch (err) {
 		log.error(err)
 		log.info('Error getting menu document')

@@ -10,9 +10,12 @@ $(function() {
 			$('#profileImage').attr('src', data.pictureLink);
 		}
 	});
+
+	//get the latest menu
+	pullLatestMenu();
 });
 
-$('#uploadDocument').click(function() {
+$('#documentTimeStamp').click(function() {
 	console.log('Selecting document')
 	$('#uploadFile').click();	
 });
@@ -45,17 +48,23 @@ $('#uploadFile').change(function() {
 });
 
 $('#uploadButton').click(function() {
+	pullLatestMenu();
+});
+
+function pullLatestMenu() {
 	$.getJSON('/latest', function(latestDocument) {
-		const latestMenu = latestDocument.latestMenu
-		console.log(latestMenu)
+		const fileLines = latestDocument.fileLines
+		const timestamp = new Date (latestDocument.timestamp).toLocaleString();
+		const fileName = latestDocument.fileName;
+		
+
+		$('#documentTimeStamp').text('Uploaded ' + (timestamp));
+		$('#documentName').text(fileName);
 
 		$('#menuView').empty();
-		
-		for (let i = 0; i < latestMenu.length; i++) {
-			const line = latestMenu[i];
-
-			$('#menuView').append('<p>' + line + '</p>');
+		for (let i = 0; i < fileLines.length; i++) {
+			const line = fileLines[i];
+			$('#menuView').append(line + '<br>');
 		}
 	});
-
-});
+}

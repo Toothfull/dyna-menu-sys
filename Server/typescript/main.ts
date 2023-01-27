@@ -157,7 +157,7 @@ app.put('/upload', upload.single('file'), async (request, response) => {
 		log.info('File uploaded')
 		const fileLines = breakApartFile(file.path)
 		try {
-			await insertMenuDocument(fileLines)
+			await insertMenuDocument(fileLines, file.originalname)
 			fs.rmSync(file.path)
 		} catch (error) {
 			log.error(error)
@@ -171,10 +171,21 @@ app.put('/upload', upload.single('file'), async (request, response) => {
 
 app.get('/latest', async (request, response) => {
 	const latestMenu = await getMenuDocument()
-	response.send({
-		latestMenu: latestMenu
-	})
+	if (latestMenu==null) {
+		log.info('No menu found')
+		response.send('null')
+	} else {
+		response.send({
+			fileLines: latestMenu?.fileLines,
+			timestamp: latestMenu?.timestamp,
+			fileName: latestMenu?.fileName
+		})
+	}
 })
+
+// app.post('/saveChanges', async (request, response) => {
+
+// });
 
 app.listen(port, async () => {
 	log.info('Example app listening on port ' + port)
