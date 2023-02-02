@@ -6,7 +6,6 @@ config({
 
 //log4js
 import { getLogger } from 'log4js'
-import { initialConnection } from '../mongo'
 const log = getLogger( 'mongoclass' )
 
 // Interfaces
@@ -16,7 +15,7 @@ interface menuDocument extends WithId <Document> {
 	fileName : string
 } 
 
-export default class MongoDB {
+export class MongoDB {
 
 	public static client : MongoClient
 	public static database : Db
@@ -156,5 +155,4 @@ export default class MongoDB {
 	public static async closeConnection(client: MongoClient){
 		client.close()
 	}
-
 }
