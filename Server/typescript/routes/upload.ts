@@ -1,6 +1,6 @@
 import { app } from '../main'
 import { breakApartFile } from '../functions/breakapartfile'
-import { insertMenuDocument } from '../mongo'
+import { MongoDB } from '../classes/mongoclass'
 
 import fs from 'fs'
 import multer from 'multer'
@@ -29,7 +29,7 @@ app.put('/upload', upload.single('file'), async (request, response) => {
 		log.info('File uploaded')
 		const fileLines = breakApartFile(file.path)
 		try {
-			await insertMenuDocument(fileLines, file.originalname)
+			await MongoDB.insertMenuDocument(fileLines, file.originalname)
 			fs.rmSync(file.path)
 		} catch (error) {
 			log.error(error)

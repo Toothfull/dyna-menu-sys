@@ -51,6 +51,15 @@ $('#uploadButton').click(function() {
 	pullLatestMenu();
 });
 
+$('#mdConvert').click(function() {
+	$.getJSON('/latest', function(latestDocument) {
+		const fileText = latestDocument.fileLines.join('\n');
+		markdownToHTML(fileText);
+		$('#menuView').empty();
+		$('#menuView').append(markdownToHTML(fileText));
+	});
+})
+
 function pullLatestMenu() {
 	$.getJSON('/latest', function(latestDocument) {
 		const fileLines = latestDocument.fileLines

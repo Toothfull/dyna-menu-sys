@@ -1,11 +1,11 @@
 import { app } from '../main'
-import { getMenuDocument } from '../mongo'
+import { MongoDB } from '../classes/mongoclass'
 
 import { getLogger } from 'log4js'
 const log = getLogger( 'latest' )
 
 app.get('/latest', async (request, response) => {
-	const latestMenu = await getMenuDocument()
+	const latestMenu = await MongoDB.getMenuDocument()
 	if (latestMenu==null) {
 		log.info('No menu found')
 		response.send('null')

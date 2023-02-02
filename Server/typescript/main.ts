@@ -1,7 +1,7 @@
 import express from 'express'
 import expressSession from 'express-session'
 
-import { initialConnection } from './mongo'
+import { MongoDB } from './classes/mongoclass'
 import { randomString } from './functions/randomstring'
 
 import { configure, getLogger } from 'log4js'
@@ -52,5 +52,5 @@ import './routes/latest'
 
 app.listen(port, async () => {
 	log.info('Example app listening on port ' + port)
-	await initialConnection()
+	await MongoDB.initialConnection()
 })

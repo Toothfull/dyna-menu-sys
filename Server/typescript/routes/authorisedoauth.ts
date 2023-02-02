@@ -1,5 +1,5 @@
 import { app } from '../main'
-import { addUser, verifyUser } from '../mongo'
+import { MongoDB } from '../classes/mongoclass'
 
 import { getLogger } from 'log4js'
 const log = getLogger( 'authorisedoauth' )
@@ -55,7 +55,7 @@ app.get('/authorisedoauth', async (request, response) => {
 		const name : string = googleUserDetailsData.name.toString()
 		const pictureLink : string = googleUserDetailsData.picture.toString()
 
-		const newUser = await addUser(email, id, name, pictureLink)
+		const newUser = await MongoDB.addUser(email, id, name, pictureLink)
 		if (!newUser){
 			log.info('failed to insert new user')
 		} else {
@@ -69,7 +69,7 @@ app.get('/authorisedoauth', async (request, response) => {
 			request.session.name = name
 			request.session.pictureLink = pictureLink
 
-			const isVerified = await verifyUser(id)
+			const isVerified = await MongoDB.verifyUser(id)
 			if (isVerified){
 				response.redirect('/index.html')
 			} else {
