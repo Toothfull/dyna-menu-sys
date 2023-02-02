@@ -1,0 +1,19 @@
+import { app } from '../main'
+import { getMenuDocument } from '../mongo'
+
+import { getLogger } from 'log4js'
+const log = getLogger( 'latest' )
+
+app.get('/latest', async (request, response) => {
+	const latestMenu = await getMenuDocument()
+	if (latestMenu==null) {
+		log.info('No menu found')
+		response.send('null')
+	} else {
+		response.send({
+			fileLines: latestMenu?.fileLines,
+			timestamp: latestMenu?.timestamp,
+			fileName: latestMenu?.fileName
+		})
+	}
+})
