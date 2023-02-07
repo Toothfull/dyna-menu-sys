@@ -1,7 +1,7 @@
 # dyna-menu-sys
 A dynamic menu system using raspberry pi and android systems
 
-##Usage
+## Usage
 
 1. Download [the latest release](https://github.com/toothfull/dyna-menu-sys/releases)
 2. Install node and required packages
