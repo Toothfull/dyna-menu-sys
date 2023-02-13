@@ -113,37 +113,6 @@ function orderedList(markdownLine,previousLines,nextLines){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // old code
 function HTMLToMarkdown( htmlText ) {
 	htmlText = htmlText.replaceAll( /<h6>(.*)<\/h6>/g, "###### $1" )

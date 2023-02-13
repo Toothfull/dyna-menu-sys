@@ -54,7 +54,6 @@ $('#uploadButton').click(function() {
 $('#mdConvert').click(function() {
 	$.getJSON('/latest', function(latestDocument) {
 		const fileText = latestDocument.fileLines.join('\n');
-		markdownToHTML(fileText);
 		$('#menuView').empty();
 		$('#menuView').append(markdownToHTML(fileText));
 	});
@@ -70,10 +69,6 @@ function pullLatestMenu() {
 		$('#documentTimeStamp').text('Uploaded ' + (timestamp));
 		$('#documentName').text(fileName);
 
-		$('#menuView').empty();
-		for (let i = 0; i < fileLines.length; i++) {
-			const line = fileLines[i];
-			$('#menuView').append(line + '<br>');
-		}
+		$('#menuView').html(markdownToHTML(fileLines.join('\n')));
 	});
 }
