@@ -26,7 +26,7 @@ function markdownToHTML(markdownString) {
 		markdownLine = markdownLine.replaceAll(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
 		markdownLine = markdownLine.replaceAll(/__(.*?)__/g, '<u>$1</u>'); // Underline
 		markdownLine = markdownLine.replaceAll(/~~(.*?)~~/g, '<s>$1</s>'); // Strikethrough
-		markdownLine = markdownLine.replaceAll(/!\[(.*?)\]\((.*?)\)/g, '<img src=\'$2\' alt=\'$1\' />'); // Images
+		markdownLine = markdownLine.replaceAll(/!\[(.*?)\]\((.*?)\)/g, '<img src=\'$2\' alt=\'$1\' width=\'128px\' />'); // Images
 		markdownLine = markdownLine.replaceAll(/\[(.*?)\]\((.*?)\)/g, '<a href=\'$2\'>$1</a>'); // Links
 
 		if (didHeadingChange||didUnorderedListChange||didOrderedListChange) {

@@ -53,6 +53,13 @@ $('#uploadButton').click(function() {
 
 });
 
+$('#aboutClick').click(function() {
+	let myModal = new bootstrap.Modal($('#aboutBox'))
+	$('#aboutTitle').text('About');
+	$('#aboutDescription').text('This is a web application that takes markdown and will convert it to HTML. This is then uploaded to a database which android devices will render the latest menu.');
+	myModal.show();
+});
+
 
 
 $('#mdConvert').click(function() {
@@ -74,11 +81,6 @@ $('#mdConvert').click(function() {
 		$('#menuView').addClass('visually-hidden');
 		markdownOption = true
 	}
-
-
-
-
-
 
 })
 

@@ -39,14 +39,14 @@
 						<div class="col-8">
 							<div class="align-middle">
 			
-								<div class="dropdown me-1 text-end">
-									<button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+								<div class="dropdown me-1">
+									<button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="">
 										<img id="profileImage" class="rounded-circle" src="https://via.placeholder.com/512" alt="Profile Picture" width="40" height="40" referrerpolicy="no-referrer">
 									</button>
-									<ul class="dropdown-menu bg-primary" aria-labelledby="dropdownMenuButton1">
-										<li><a class="dropdown-item text-light" href="#">Action</a></li>
-										<li><a class="dropdown-item text-light" href="#">Another action</a></li>
-										<li><a class="dropdown-item text-light" href="#">Something else here</a></li>
+									<ul class="dropdown-menu dropdown-menu-end bg-primary" aria-labelledby="dropdownMenuButton1">
+										<li><a id='aboutClick' class="dropdown-item text-light" href="#">About</a></li>
+										<li><a class="dropdown-item text-light" href="#">Markdown Cheat Sheet</a></li>
+										<li><a class="dropdown-item text-light" href="#">Logout</a></li>
 									</ul>
 								</div>
 		
@@ -128,17 +128,32 @@
 
 			</div>
 
-			<div id="menuView" class="col-lg-6 bg-light align-self-center" style="margin-top: 100px; margin-bottom: 150px; height: 800px;" contenteditable="true"></div>
+			<div id="menuView" class="col-lg-6 bg-light align-self-center" style="margin-top: 100px; margin-bottom: 150px; height: 800px;" ></div>
 			<textarea id="menuPre" class="col-lg-6 bg-light align-self-center visually-hidden" style="margin-top: 100px; margin-bottom: 150px; height: 800px;"></textarea>
 
 			<div class="col-3">
 				
 			</div>
 		</div>
-
-		
 	</div>
 
+	<div class="modal" id="aboutBox" tabindex="-1">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="aboutTitle"></h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="aboutDescription">
+			  <p></p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  
 
 
 
