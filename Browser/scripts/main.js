@@ -1,3 +1,5 @@
+let markdownOption = false
+
 //on load
 $(function() {
 	//get the user's name
@@ -48,15 +50,36 @@ $('#uploadFile').change(function() {
 });
 
 $('#uploadButton').click(function() {
-	pullLatestMenu();
+
 });
 
+
+
 $('#mdConvert').click(function() {
-	$.getJSON('/latest', function(latestDocument) {
-		const fileText = latestDocument.fileLines.join('\n');
+
+	if ( markdownOption == true ) {
+		// html to markdown
+		const htmlText = markdownToHTML($('#menuPre').val());
 		$('#menuView').empty();
-		$('#menuView').append(markdownToHTML(fileText));
-	});
+		$('#menuView').html(htmlText);
+		$('#menuView').removeClass('visually-hidden');
+		$('#menuPre').addClass('visually-hidden');
+		markdownOption = false
+	} else { 
+		// markdown to html
+		const markdownText = HTMLToMarkdown($('#menuView').html());
+		$('#menuPre').empty();
+		$('#menuPre').val(markdownText);
+		$('#menuPre').removeClass('visually-hidden');
+		$('#menuView').addClass('visually-hidden');
+		markdownOption = true
+	}
+
+
+
+
+
+
 })
 
 function pullLatestMenu() {
