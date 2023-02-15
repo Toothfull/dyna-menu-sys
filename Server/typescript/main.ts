@@ -23,7 +23,7 @@ const log = getLogger( 'main' )
 
 //Creates express app and sets port
 export const app = express()
-const port = 9000 
+const port = 9000
 declare module 'express-session' { //Creates a session
 	export interface SessionData {
 		googleid: string;

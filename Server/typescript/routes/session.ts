@@ -4,9 +4,9 @@ import { app } from '../main'
 // Creates a route for the session 
 app.get('/session', (request, response) => {
 	response.send({
-		id: request.session.googleid,
-		email: request.session.email,
-		name: request.session.name,
-		pictureLink: request.session.pictureLink
+		id: request.session.googleid ?? null,
+		email: request.session.email ?? null,
+		name: request.session.name ?? null,
+		pictureLink: request.session.pictureLink ?? null
 	})
 })

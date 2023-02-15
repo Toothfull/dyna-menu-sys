@@ -167,6 +167,13 @@ export class MongoDB {
 		}
 	}
 
+	//deletes all documents from the database
+	public static async deleteAllDocuments (){
+		const meuCollection = MongoDB.database.collection<menuDocument>(MongoDB.collectionName1)
+		await meuCollection.deleteMany({})
+		console.log('All documents from the database')
+	}
+
 	//Closes connection to database
 	public static async closeConnection(client: MongoClient){
 		client.close()
