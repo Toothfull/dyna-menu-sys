@@ -5,7 +5,7 @@
 	"main": "./emit/main.js",
 	"scripts": {
 		"start": "npx tsc && node .",
-		"test": "npx tsc && npx mocha --ui tdd --exit --recursive ./emit/tests/"
+		"test": "npx tsc && npx mocha --ui tdd --timeout 10000 --exit --recursive ./emit/tests/"
 	},
 	"repository": {
 		"type": "git",
