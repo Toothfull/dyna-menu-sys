@@ -53,7 +53,7 @@ function heading(markdownLine){
 	for (let count = 6; count >= 1; count--){
 		let prefix = '#'.repeat(count);
 		if (markdownLine.startsWith(prefix)) {
-			return [`<h${count}>${markdownLine.slice(prefix.length)}</h${count}>`,true];
+			return [`<h${count}>${markdownLine.slice(prefix.length+1)}</h${count}>`,true];
 		}
 	}
 
@@ -119,11 +119,13 @@ function orderedList(markdownLine,previousLines,nextLines){
 	return [markdownLine,false];
 }
 
+/***********************************************************************************/
+
 // Global variable determining what type of conversion we are currently on
 let whatTypeOfListAreWeCurrentlyOn = null
 
 //Converts html to markdown
-function HTMLToMarkdown( htmlText ) {
+function HTMLToMarkdown() {
 	let htmlLines = $('#menuView').html().split('\n');
 	let htmlLinesCount = htmlLines.length;
 
@@ -132,15 +134,6 @@ function HTMLToMarkdown( htmlText ) {
 	for (let lineNumber = 0; lineNumber < htmlLinesCount; lineNumber++) {
 		let htmlLine = htmlLines[lineNumber];
 
-		let previousLines = htmlLines.slice(0,lineNumber);
-
-		let previousLine = '';
-		if (previousLines.length>0){
-			previousLine = previousLines[previousLines.length-1];
-		}
-
-		let nextLines = htmlLines.slice(lineNumber+1);
-
 		//Checks for unordered list
 		if (htmlLine.match(/<ul>/) != null) {
 			markdownLines.push( '' );
@@ -148,6 +141,7 @@ function HTMLToMarkdown( htmlText ) {
 			continue;
 		}
 		if (htmlLine.match(/<\/ul>/) != null) {
+			markdownLines.push( '' );
 			whatTypeOfListAreWeCurrentlyOn = null
 			continue;
 		}
@@ -158,6 +152,7 @@ function HTMLToMarkdown( htmlText ) {
 			continue;
 		}
 		if (htmlLine.match(/<\/ol>/) != null) {
+			markdownLines.push( '' );
 			whatTypeOfListAreWeCurrentlyOn = null
 			continue;
 		}
@@ -181,15 +176,15 @@ function HTMLToMarkdown( htmlText ) {
 
 		//Checks if already converted to a list
 		let didListChange = false;
-		[htmlLine, didListChange] = markdownUnorderedList(htmlLine,nextLines);
-		if (didListChange == true)	{	
+		[htmlLine, didListChange] = markdownUnorderedList(htmlLine);
+		if (didListChange == true) {
 			markdownLines.push(htmlLine);
 			continue;
 		}
 
 		//Checks if already converted to an ordered list
 		let didOrderedListChange = false;
-		[htmlLine,didOrderedListChange] = markdownOrderedList(htmlLine,nextLines);
+		[htmlLine,didOrderedListChange] = markdownOrderedList(htmlLine);
 		if (didOrderedListChange == true) {
 			markdownLines.push(htmlLine);
 			continue;
@@ -224,7 +219,7 @@ function HTMLToMarkdown( htmlText ) {
 	// remove any duplicate empty lines but keep at least one
 	let previousLine = '';
 	markdownLines = markdownLines.filter( (line) => {
-		if (line.length > 0 || previousLine.length > 0) {
+		if (line.length>0||previousLine.length>0) {
 			previousLine = line;
 			return true;
 		}
@@ -249,7 +244,7 @@ function markdownHeading (htmlLine) {
 }
 
 //Converts html ul to markdown unordered list
-function markdownUnorderedList (htmlLine,nextLines) {
+function markdownUnorderedList (htmlLine) {
 	const match = htmlLine.match(/^<li>(.+)<\/li>$/);
 	if (match != null){
 		let listText = match[1];
@@ -264,8 +259,7 @@ function markdownUnorderedList (htmlLine,nextLines) {
 }
 
 //Converts html ol to markdown ordered list
-function markdownOrderedList (htmlLine, nextLines) {
-
+function markdownOrderedList (htmlLine) {
 	const match = htmlLine.match(/^<li>(.+)<\/li>$/);
 	if (match != null){
 		let listText = match[1];

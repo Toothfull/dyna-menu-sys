@@ -1,227 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>DMS Panel</title>
+	<head>
+		<title>DMS Panel</title>
 
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+		<!-- Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
-	<!-- Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
+		<link rel="stylesheet" href="stylesheets/style.css">
+	</head>
+	<body class="bg-secondary">
+		<div id="Overlay" class="container-fluid fixed-top">
 
-</head>
-<body class="bg-secondary">
-	<div id="Overlay" class="container-fluid fixed-top">
-
-		<!-- Nav bar at the top -->
-		<div id="Navigationbar" class="row bg-primary">
-			<nav class="navbar navbar-expand-lg">
-				<div class="col-2 text-center">
-					<span id="documentTimeStamp" class="align-middle fs2 text-light m-1" style="cursor: pointer;">
-						Uploaded 
-					</span>
-					<input id="uploadFile" type="file" style="display: none"> <!-- accept="text/plain" -->
-				</div>
-				<div class="col-8 text-light fs-3 text-center">
-					<span id="documentName" class="align-middle">
-						document
-					</span>
-				</div>
-				<div class="col-2 text-end">
-					<div class="row">
-						<div class="col-4">
-							
-						</div>
-						<div class="col-8">
-							<div class="align-middle">
-			
-								<div class="dropdown me-1">
-									<button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-										<img id="profileImage" class="rounded-circle" src="https://via.placeholder.com/512" alt="Profile Picture" width="40" height="40" referrerpolicy="no-referrer">
-									</button>
-									<ul class="dropdown-menu dropdown-menu-end bg-info" aria-labelledby="dropdownMenuButton1">
-										<li><a id='aboutClick' class="dropdown-item text-light" href="#">About</a></li>
-										<li><a id='cheatClick' class="dropdown-item text-light" href="#">Markdown Cheat Sheet</a></li>
-										<li><a id='logOutClick'class="dropdown-item text-light" href="#">Logout</a></li>
-									</ul>
-								</div>
-		
-							</div>
-						</div>
+			<!-- Nav bar at the top -->
+			<div id="Navigationbar" class="row bg-primary">
+				<nav class="navbar navbar-expand-lg">
+					<div class="col-2 text-center">
+						<span id="documentTimeStamp" class="align-middle fs2 text-light m-1" style="cursor: pointer;">
+							Uploaded 
+						</span>
+						<input id="uploadFile" type="file" style="display: none"> <!-- accept="text/plain" -->
 					</div>
-					
-				</div>
-
-			</nav>
-		</div>
-	
-
-		<!-- Menu bar at the bottom -->
-		<div id="Menubar" class="row fixed-bottom">
-			<div class="col-3 text-left">
-
-			</div>
-			<div class="col-6 align-self-end">
-					<div class="row bg-primary p-3 rounded-4 m-1">
-						<div class="col-2 text-center">
-							<img class="rounded img-fluid" src="assets/images/imagesicon.png" alt="Profile Picture" width="100" height="100">
-						</div>
-						<div class="col-2 text-center">
-							<img class="rounded img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
-						</div>
-						<div class="col-2 text-center">
-							<img class="rounded img-fluid" src="assets/images/linkicon.png" alt="Profile Picture" width="100" height="100">
-						</div>
-						<div class="col-2 text-center">
-							<img class="rounded img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
-						</div>
-						<div class="col-2 text-center">
-							<img class="rounded img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
-						</div>
-						<div class="col-2 text-center">
-							<img id="mdConvert" class="rounded img-fluid" src="assets/images/markdownlogo.png" alt="Profile Picture" width="100" height="100">
-						</div>
-						
+					<div class="col-8 text-light fs-3 text-center">
+						<span id="documentName" class="align-middle">
+							document
+						</span>
 					</div>
-			</div>
-
-			<div class="col-3">
-
-				<div class="row">
-					<div class="col-6 text-center align-middle">
-						
-					</div>
-
-					<div class="col-6 text-center align-middle">
+					<div class="col-2 text-end">
 						<div class="row">
-							<div class="col-6 text-end p-0">
-								<img src="/assets/images/tablet.png" alt="Profile Picture" width="30" height="50">
+							<div class="col-4">
 								
 							</div>
-							<div class="col-lg-6 text-start">
-								<span class="fs-2">12</span>
+							<div class="col-8">
+								<div class="align-middle">
+				
+									<div class="dropdown me-1">
+										<button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+											<img id="profileImage" class="rounded-circle" src="https://via.placeholder.com/512" alt="Profile Picture" width="40" height="40" referrerpolicy="no-referrer">
+										</button>
+										<ul class="dropdown-menu dropdown-menu-end bg-primary" aria-labelledby="dropdownMenuButton1">
+											<li><a id='aboutClick' class="dropdown-item text-light" href="#">About</a></li>
+											<li><a id='cheatClick' class="dropdown-item text-light" href="#">Markdown Cheat Sheet</a></li>
+											<li><a id='logOutClick'class="dropdown-item text-light" href="#">Logout</a></li>
+										</ul>
+									</div>
+			
+								</div>
 							</div>
 						</div>
+						
+					</div>
 
-						<div class="row">
-							<div id="uploadButton" class="col-12">
-								<img class="rounded-circle m-3" src="/assets/images/uploadarrow.png" alt="Profile Picture" width="100" height="100">
-							</div>
-							
+				</nav>
+			</div>
+		
+
+			<!-- Menu bar at the bottom -->
+			<div id="Menubar" class="row fixed-bottom">
+				<div class="col-3 text-left">
+
+				</div>
+				<div class="col-6 align-self-end">
+					<div class="row bg-primary p-3 rounded-4 m-1">
+						<!-- Color picker -->
+						<div class="col-2 text-center">
+							<img id="colorPicker" class="rounded img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
+						</div>
+
+						<!-- Inserting link -->
+						<div class="col-2 text-center">
+							<img id="insertLink" class="rounded img-fluid" src="assets/images/linkicon.png" alt="Profile Picture" width="100" height="100">
+						</div>
+
+						<!-- Inserting heading 1 -->
+						<div class="col-2 text-center">
+							<img id="insertHeading" class="rounded img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
+						</div>
+
+						<!-- Insert unordered list -->
+						<div class="col-2 text-center">
+							<img id="insertUnorderedList" class="rounded img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
+						</div>
+
+						<!-- Insert ordered list -->
+						<div class="col-2 text-center">
+							<img id="insertOrderedList" class="rounded img-fluid" src="https://via.placeholder.com/512" alt="Profile Picture" width="100" height="100">
+						</div>
+
+						<!-- Markdown/HTML conversion -->
+						<div class="col-2 text-center">
+							<img id="mdConvert" class="rounded img-fluid" src="assets/images/markdownlogo.png" alt="Profile Picture" width="100" height="100" style="cursor: pointer;">
 						</div>
 					</div>
 				</div>
 
+				<div class="col-3">
+					<div class="row">
+						<div class="col-6 text-center align-middle">
+							
+						</div>
+
+						<div class="col-6 text-center align-middle">
+							<div class="row">
+								<div class="col-6 text-end p-0">
+									<img src="/assets/images/tablet.png" alt="Profile Picture" width="30" height="50">
+									
+								</div>
+								<div class="col-lg-6 text-start">
+									<span class="fs-2">12</span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div id="uploadButton" class="col-12">
+									<img class="rounded-circle m-3" src="/assets/images/uploadarrow.png" alt="Profile Picture" width="100" height="100">
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Canvas for the menu content -->
+		<div id="Canvas" class="container">
+
+			<div class="d-flex justify-content-center">
+				<div style="width: 650px; padding-top: 100px; padding-bottom: 170px;">
+					<div id="menuView" class="p-3 bg-light align-self-center" style="min-height: 800px; height: auto; width: 100%;"></div>
+					<textarea id="menuPre" class="p-3 bg-light align-self-center visually-hidden" style="height: auto; overflow-y: hidden; min-height: 800px; resize: none; width: 100%;"></textarea>
+				</div>
 			</div>
 		</div>
 
-	</div>		
-
-	<!-- Canvas for the menu content -->
-	<div id="Canvas" class="container-fluid">
-
-		<div class="row">
-			<div class="col-3">
-
+		<!-- About Modal -->
+		<div class="modal" id="aboutBox" tabindex="-1">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="aboutTitle"></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="aboutDescription">
+				<p></p>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
 			</div>
-
-			<div id="menuView" class="col-lg-6 bg-light align-self-center" style="margin-top: 100px; margin-bottom: 150px; height: 800px;" ></div>
-			<textarea id="menuPre" class="col-lg-6 bg-light align-self-center visually-hidden" style="margin-top: 100px; margin-bottom: 150px; height: 800px;"></textarea>
-
-			<div class="col-3">
-				
 			</div>
 		</div>
-	</div>
 
-	<!-- About Modal -->
-	<div class="modal" id="aboutBox" tabindex="-1">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title" id="aboutTitle"></h5>
-			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+		<!-- Markdown cheatsheet modal -->
+		<div class="modal" id="cheatBox" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="cheatTitle"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="cheatcontent">
+						<table class="table">
+							<thead>
+							<tr>
+								<th scope="col">Result</th>
+								<th scope="col">Format</th>
+							</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row"><h1>Heading1</h1><h2>Heading2</h2><h3>Heading3</h3></th>
+									<td># Heading 1<br>## Heading 2<br>### Heading 3</td>
+								</tr>
+								<tr>
+									<th scope="row"><strong>Bold</strong></th>
+									<td>**Bold**</td>
+								</tr>
+								<tr>
+									<th scope="row"><em>Italic</em></th>
+									<td>*Italic*</td>
+								</tr>
+								<tr>
+									<th scope="row"><s>Strikeout</s></th>
+									<td>~~Strikeout~~</td>
+								</tr>
+								<tr>
+									<th scope="row"><u>Underline</u></th>
+									<td>__Underline__</td>
+								</tr>
+								<tr>
+									<th scope="row"><ul><li>Unordered list</li><li>Option 1</li><li>Option 2</li></ul></th>
+									<td>* Unordered list<br> * Option 1<br> * Option 2<br></td>
+								</tr>
+								<tr>
+									<th scope="row"><ol><li>Ordered list</li><li>Option 1</li><li>Option 2</li></ol></th>
+									<td>1 Ordered list<br> 1 Option 1<br> 1 Option 2<br></td>
+								</tr>
+								<tr>
+									<th scope="row"><a href="">Links</a></th>
+									<td>[Links](https://www.example.com)</td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
 			</div>
-			<div class="modal-body" id="aboutDescription">
-			  <p></p>
-			</div>
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			</div>
-		  </div>
 		</div>
-	  </div>
 
-
-	<!-- Markdown cheatsheet modal -->
-	<div class="modal" id="cheatBox" tabindex="-1">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title" id="cheatTitle"></h5>
-			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body" id="cheatcontent">
-				<table class="table">
-					<thead>
-					  <tr>
-						<th scope="col">Result</th>
-						<th scope="col">Format</th>
-					  </tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row"><h1>Heading1</h1><h2>Heading2</h2><h3>Heading3</h3></th>
-							<td># Heading 1<br>## Heading 2<br>### Heading 3</td>
-						</tr>
-						<tr>
-							<th scope="row"><strong>Bold</strong></th>
-							<td>**Bold**</td>
-						</tr>
-						<tr>
-							<th scope="row"><em>Italic</em></th>
-							<td>*Italic*</td>
-						</tr>
-						<tr>
-							<th scope="row"><s>Strikeout</s></th>
-							<td>~~Strikeout~~</td>
-						</tr>
-						<tr>
-							<th scope="row"><u>Underline</u></th>
-							<td>__Underline__</td>
-						</tr>
-						<tr>
-							<th scope="row"><ul><li>Unordered list</li><li>Option 1</li><li>Option 2</li></ul></th>
-							<td>* Unordered list<br> * Option 1<br> * Option 2<br></td>
-						</tr>
-						<tr>
-							<th scope="row"><ol><li>Ordered list</li><li>Option 1</li><li>Option 2</li></ol></th>
-							<td>1 Ordered list<br> 1 Option 1<br> 1 Option 2<br></td>
-						</tr>
-						<tr>
-							<th scope="row"><a href="">Links</a></th>
-							<td>[Links](https://www.example.com)</td>
-						</tr>
-					</tbody>
-
-				</table>
-			</div>
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			</div>
-		  </div>
-		</div>
-	  </div>
-
-	
-	<!-- scripts that run after the page is loaded -->
-	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-	<script src="/scripts/mdconvert.js"></script>
-	<script src="/scripts/main.js"></script>
-</body>
+		<!-- scripts that run after the page is loaded -->
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+		<script src="/scripts/mdconvert.js"></script>
+		<script src="/scripts/main.js"></script>
+	</body>
 </html>

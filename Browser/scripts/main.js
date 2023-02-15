@@ -23,7 +23,7 @@ $(function() {
 $('#documentTimeStamp').click(function() {
 	console.log('Selecting document')
 	//Press hidden input box
-	$('#uploadFile').click();	
+	$('#uploadFile').click();
 });
 
 $('#uploadFile').change(function() {
