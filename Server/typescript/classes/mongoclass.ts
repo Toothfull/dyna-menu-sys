@@ -66,7 +66,10 @@ export class MongoDB {
 		}
 
 		//Creates connection string to database
-		const connectionString = `mongodb://${userName}:${password}@${host}:${port}/${databaseName}?directConnection=true&tls=false`
+		let connectionString = `mongodb://${userName}:${password}@${host}:${port}/${databaseName}?directConnection=true&tls=false`
+		if (host.includes('mongodb.net')) {
+			connectionString = `mongodb+srv://${userName}:${password}@${host}/${databaseName}`
+		}
 		//Creates new mongo client with connection string
 		const client =	new MongoClient(connectionString)
 
