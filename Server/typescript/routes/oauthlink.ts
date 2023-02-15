@@ -1,15 +1,16 @@
+// Import express app and mongo class
 import { app } from '../main'
 import { randomString } from '../functions/randomstring'
 
-// import { getLogger } from 'log4js'
-// const log = getLogger( 'oauthlink' )
-
+// collects clientID from .env file
 const clientID = process.env.CLIENTID
 
+// checks if clientID is empty
 if(!clientID){
 	throw new Error('Missing environment variables')
 }
 
+// Creates route for storing a state within the session
 app.get('/oauthlink', (request, response) => {
 	const state = randomString(16)
 	request.session.state = state

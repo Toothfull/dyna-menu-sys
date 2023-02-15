@@ -1,8 +1,7 @@
+// Imports express app
 import { app } from '../main'
-
-//import { getLogger } from 'log4js'
-//const log = getLogger( 'session' )
  
+// Creates a route for the session 
 app.get('/session', (request, response) => {
 	response.send({
 		id: request.session.googleid,

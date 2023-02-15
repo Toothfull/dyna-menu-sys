@@ -1,6 +1,3 @@
-// import { getLogger } from 'log4js'
-// const log = getLogger( 'randomstring' )
-
 //Create a function which creates a random 16 character string
 export function randomString(length: number) {
 	let result = ''

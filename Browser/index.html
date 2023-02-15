@@ -18,6 +18,7 @@
 <body class="bg-secondary">
 	<div id="Overlay" class="container-fluid fixed-top">
 
+		<!-- Nav bar at the top -->
 		<div id="Navigationbar" class="row bg-primary">
 			<nav class="navbar navbar-expand-lg">
 				<div class="col-2 text-center">
@@ -43,10 +44,10 @@
 									<button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 										<img id="profileImage" class="rounded-circle" src="https://via.placeholder.com/512" alt="Profile Picture" width="40" height="40" referrerpolicy="no-referrer">
 									</button>
-									<ul class="dropdown-menu dropdown-menu-end bg-primary" aria-labelledby="dropdownMenuButton1">
+									<ul class="dropdown-menu dropdown-menu-end bg-info" aria-labelledby="dropdownMenuButton1">
 										<li><a id='aboutClick' class="dropdown-item text-light" href="#">About</a></li>
-										<li><a class="dropdown-item text-light" href="#">Markdown Cheat Sheet</a></li>
-										<li><a class="dropdown-item text-light" href="#">Logout</a></li>
+										<li><a id='cheatClick' class="dropdown-item text-light" href="#">Markdown Cheat Sheet</a></li>
+										<li><a id='logOutClick'class="dropdown-item text-light" href="#">Logout</a></li>
 									</ul>
 								</div>
 		
@@ -60,6 +61,7 @@
 		</div>
 	
 
+		<!-- Menu bar at the bottom -->
 		<div id="Menubar" class="row fixed-bottom">
 			<div class="col-3 text-left">
 
@@ -120,7 +122,7 @@
 
 	</div>		
 
-
+	<!-- Canvas for the menu content -->
 	<div id="Canvas" class="container-fluid">
 
 		<div class="row">
@@ -137,6 +139,7 @@
 		</div>
 	</div>
 
+	<!-- About Modal -->
 	<div class="modal" id="aboutBox" tabindex="-1">
 		<div class="modal-dialog">
 		  <div class="modal-content">
@@ -153,6 +156,70 @@
 		  </div>
 		</div>
 	  </div>
+
+
+	<!-- Markdown cheatsheet modal -->
+	<div class="modal" id="cheatBox" tabindex="-1">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="cheatTitle"></h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="cheatcontent">
+				<table class="table">
+					<thead>
+					  <tr>
+						<th scope="col">Result</th>
+						<th scope="col">Format</th>
+					  </tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row"><h1>Heading1</h1><h2>Heading2</h2><h3>Heading3</h3></th>
+							<td># Heading 1<br>## Heading 2<br>### Heading 3</td>
+						</tr>
+						<tr>
+							<th scope="row"><strong>Bold</strong></th>
+							<td>**Bold**</td>
+						</tr>
+						<tr>
+							<th scope="row"><em>Italic</em></th>
+							<td>*Italic*</td>
+						</tr>
+						<tr>
+							<th scope="row"><s>Strikeout</s></th>
+							<td>~~Strikeout~~</td>
+						</tr>
+						<tr>
+							<th scope="row"><u>Underline</u></th>
+							<td>__Underline__</td>
+						</tr>
+						<tr>
+							<th scope="row"><ul><li>Unordered list</li><li>Option 1</li><li>Option 2</li></ul></th>
+							<td>* Unordered list<br> * Option 1<br> * Option 2<br></td>
+						</tr>
+						<tr>
+							<th scope="row"><ol><li>Ordered list</li><li>Option 1</li><li>Option 2</li></ol></th>
+							<td>1 Ordered list<br> 1 Option 1<br> 1 Option 2<br></td>
+						</tr>
+						<tr>
+							<th scope="row"><a href="">Links</a></th>
+							<td>[Links](https://www.example.com)</td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	
+	<!-- scripts that run after the page is loaded -->
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	<script src="/scripts/mdconvert.js"></script>
 	<script src="/scripts/main.js"></script>

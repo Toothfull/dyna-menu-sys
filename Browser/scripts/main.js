@@ -1,24 +1,28 @@
+//Stores whether the user is viewing markdown or html
 let markdownOption = false
 
 //on load
 $(function() {
-	//get the user's name
+	//get the user's google data
 	$.get('/session', function(data) {
 
+		//if the user is not logged in, redirect to login page
 		if (data.id == null) {
 			window.location.href = 'login.html';
 		}
-		else {
+		else { //if the user is logged in, display their profile picture
 			$('#profileImage').attr('src', data.pictureLink);
 		}
 	});
 
-	//get the latest menu
+	//get the latest menu from the database
 	pullLatestMenu();
 });
 
+//When the user clicks the timestamp, open the file explorer and upload document
 $('#documentTimeStamp').click(function() {
 	console.log('Selecting document')
+	//Press hidden input box
 	$('#uploadFile').click();	
 });
 
@@ -49,10 +53,12 @@ $('#uploadFile').change(function() {
 
 });
 
+//Green upload button pressed
 $('#uploadButton').click(function() {
 
 });
 
+//About tab pressed
 $('#aboutClick').click(function() {
 	let myModal = new bootstrap.Modal($('#aboutBox'))
 	$('#aboutTitle').text('About');
@@ -60,8 +66,23 @@ $('#aboutClick').click(function() {
 	myModal.show();
 });
 
+//About tab pressed
+$('#cheatClick').click(function() {
+	$('#cheatTitle').text('Markdown Cheat Sheet');
+	let myModal = new bootstrap.Modal($('#cheatBox'))
+	myModal.show();
+});
+
+//Logout button pressed
+$('#logOutClick').click(function() {
+	$.get('/logout', function(data) {
+		window.location.href = data;
+		console.log('Logging out');
+	});
+});
 
 
+//Render either html or markdown
 $('#mdConvert').click(function() {
 
 	if ( markdownOption == true ) {
@@ -84,13 +105,14 @@ $('#mdConvert').click(function() {
 
 })
 
+//Grab the latest menu from the database
 function pullLatestMenu() {
 	$.getJSON('/latest', function(latestDocument) {
 		const fileLines = latestDocument.fileLines
 		const timestamp = new Date (latestDocument.timestamp).toLocaleString();
 		const fileName = latestDocument.fileName;
 		
-
+		//render the document, name of document and timestamp
 		$('#documentTimeStamp').text('Uploaded ' + (timestamp));
 		$('#documentName').text(fileName);
 
