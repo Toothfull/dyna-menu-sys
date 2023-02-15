@@ -61,9 +61,9 @@ jobs:
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: |
-            ./server/emit/
-            ./server/package.json
-            ./server/package-lock.json
+            ./Server/emit/
+            ./Server/package.json
+            ./Server/package-lock.json
 
   docker:
     name: Docker
