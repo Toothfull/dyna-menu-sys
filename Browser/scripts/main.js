@@ -146,6 +146,8 @@ $('#mdConvert').click(function() {
 		$('#menuView').html(htmlText);
 		$('#menuView').removeClass('visually-hidden');
 		$('#menuPre').addClass('visually-hidden');
+
+		$('#mdConvert').attr('src', 'assets/images/markdownlogo.png');
 		markdownOption = false
 	} else { 
 		// markdown to html
@@ -154,6 +156,8 @@ $('#mdConvert').click(function() {
 		$('#menuPre').val(markdownText);
 		$('#menuPre').removeClass('visually-hidden');
 		$('#menuView').addClass('visually-hidden');
+
+		$('#mdConvert').attr('src', 'assets/images/htmlicon.png');
 		markdownOption = true
 	}
 
