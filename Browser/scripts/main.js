@@ -132,6 +132,9 @@ $('#logOutClick').click(function() {
 	});
 });
 
+$('#pullLatestClick').click(function() {
+	pullLatestMenu();
+});
 
 //Render either html or markdown
 $('#mdConvert').click(function() {
