@@ -54,9 +54,59 @@ $('#uploadFile').change(function() {
 
 });
 
+function uploadMenuDocument( documentName, documentText ) {
+	try { //Try to upload document as json to route
+		$.ajax({
+			url: '/updatemenu',
+			type: 'POST',
+			data: JSON.stringify({
+				markdown: documentText, //HTMLToMarkdown($('#menuView').html()),
+				fileName: documentName
+			}),
+			contentType: 'application/json',
+			success: function(data) {
+				console.log('menu update successful!\n' + data);
+				alert('Upload successful!')
+				pullLatestMenu();
+			},
+			error: function(data) {
+				console.log('menu update failed!\n' + data);
+			}
+		});
+	} catch (error) {
+		console.log(error); //if error, log it
+		alert('Error uploading menu. Please try again later. If this error persists, please contact the developer.')
+	}
+}
+
+const nameModal = new bootstrap.Modal($('#documentNameBox'));
+
+$('#documentNameSubmit').click(function() {
+	documentName = $('#documentNameInput').val();
+	nameModal.hide();
+	if (documentName == '') {
+		alert('Please enter a name for the document');
+		nameModal.show();
+	} else {
+		// try upload document as here
+		uploadMenuDocument( documentName, HTMLToMarkdown($('#menuView').html()) );
+	}
+});
+
 //Green upload button pressed
 $('#uploadButton').click(function() {
 
+	if (markdownOption == false) { //if in html view
+		if ($('#documentName').text().trim() == 'default') {  //if the document name is default, ask for a new name
+			nameModal.show();
+		} else {
+			const documentName = $('#documentName').text().trim();
+			uploadMenuDocument( documentName, HTMLToMarkdown($('#menuView').html()) );
+		}
+
+	} else { //else in markdown view
+		alert('Please switch to HTML view before uploading')
+	}
 });
 
 //About tab pressed
@@ -109,6 +159,12 @@ $('#mdConvert').click(function() {
 //Grab the latest menu from the database
 function pullLatestMenu() {
 	$.getJSON('/latest', function(latestDocument) {
+
+		if (latestDocument == null) {
+			alert('No menu found. Please upload a menu.')
+			return;
+		}
+
 		const fileLines = latestDocument.fileLines
 		const timestamp = new Date (latestDocument.timestamp).toLocaleString();
 		const fileName = latestDocument.fileName;

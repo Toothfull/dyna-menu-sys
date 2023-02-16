@@ -29,7 +29,7 @@
 					</div>
 					<div class="col-8 text-light fs-3 text-center">
 						<span id="documentName" class="align-middle">
-							document
+							default
 						</span>
 					</div>
 					<div class="col-2 text-end">
@@ -159,7 +159,6 @@
 			</div>
 		</div>
 
-
 		<!-- Markdown cheatsheet modal -->
 		<div class="modal" id="cheatBox" tabindex="-1">
 			<div class="modal-dialog">
@@ -221,6 +220,24 @@
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<!-- Document name modal -->
+		<div class="modal" id="documentNameBox" tabindex="-1">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title">Enter a document name</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="aboutDescription">
+				<input type="text" class="form-control" id="documentNameInput" placeholder="Document name">
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary bg-primary" id="documentNameSubmit" data-bs-dismiss="modal">Submit</button>
+				</div>
+			</div>
 			</div>
 		</div>
 

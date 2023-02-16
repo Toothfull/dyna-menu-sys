@@ -56,6 +56,7 @@ import './routes/authorisedoauth'
 import './routes/upload'
 import './routes/latest'
 import './routes/logout'
+import './routes/updatemenu'
 
 //Starts the server and connects to the database
 app.listen(port, async () => {
