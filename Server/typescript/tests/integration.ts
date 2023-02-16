@@ -77,4 +77,12 @@ suite( 'Integration tests', () => {
 		
 	} )
 
+	test( 'Check if menu is sent to mongo', (done) => {
+		chai.request(app).post('/updatemenu').send({markdown: 'test\ntest\ntest', fileName: 'test.txt'}).end((_, Response) => {
+			chai.assert.equal(Response.status, 200, 'Status code is not 200')
+			chai.assert.equal(Response.text, 'Menu recieved', 'Response text is not "Menu recieved"')
+			done()
+		})
+	})
+
 } )

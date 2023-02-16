@@ -2,6 +2,7 @@ import chai from 'chai'
 import fs from 'fs'
 import { breakApartFile } from '../functions/breakapartfile'
 import { randomString } from '../functions/randomstring'
+import { breakApartText } from '../functions/breakaparttext'
 
 suite( 'Unit tests', () => {
 
@@ -23,5 +24,11 @@ suite( 'Unit tests', () => {
 		const randomStringAnswer = randomString(number)
 		chai.assert.lengthOf(randomStringAnswer, number, 'Random string is not the correct length')
 	} )
+
+	test ('String is returned as a list', () => { 
+		const string = 'this is\n a string'
+		const result = breakApartText(string)
+		chai.assert.lengthOf(result, 2, 'More than 2 values were found')
+	})
 
 } )
