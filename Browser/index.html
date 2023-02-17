@@ -20,16 +20,16 @@
 		<div id="Overlay" class="container-fluid fixed-top">
 
 			<!-- Nav bar at the top -->
-			<div id="Navigationbar" class="row bg-primary">
+			<div id="Navigationbar" class="row bg-primary shadow-lg">
 				<nav class="navbar navbar-expand-lg">
 					<div class="col-2 text-center">
-						<span id="documentTimeStamp" class="align-middle fs2 text-light m-1" style="cursor: pointer;">
+						<span id="documentTimeStamp" class="align-middle fs2 m-1 hoverColour" style="cursor: pointer;">
 							Upload file
 						</span>
 						<input id="uploadFile" type="file" style="display: none"> <!-- accept="text/plain" -->
 					</div>
 					<div class="col-8 text-light fs-3 text-center">
-						<span id="documentName" class="align-middle">
+						<span id="documentName" class="align-middle hoverColour">
 							default
 						</span>
 					</div>
@@ -49,6 +49,8 @@
 											<li><a id='aboutClick' class="dropdown-item text-light" href="#">About</a></li>
 											<li><a id='cheatClick' class="dropdown-item text-light" href="#">Markdown Cheat Sheet</a></li>
 											<li><a id='pullLatestClick' class="dropdown-item text-light" href="#">Pull latest document</a></li>
+											<li><a id='deleteLastDocumentClick' class="dropdown-item text-warning dangerDrop" href="#">Delete last document</a></li>
+											<li><a id='deleteALLDocumentsClick' class="dropdown-item text-warning dangerDrop" href="#">Delete ALL documents</a></li>
 											<li><a id='logOutClick' class="dropdown-item text-light" href="#">Logout</a></li>
 										</ul>
 									</div>
@@ -136,8 +138,8 @@
 
 			<div class="d-flex justify-content-center">
 				<div style="width: 650px; padding-top: 100px; padding-bottom: 170px;">
-					<div id="menuView" class="p-3 bg-light align-self-center" style="min-height: 800px; height: auto; width: 100%;"></div>
-					<textarea id="menuPre" class="p-3 bg-light align-self-center visually-hidden" style="height: auto; overflow-y: hidden; min-height: 800px; resize: none; width: 100%;"></textarea>
+					<div id="menuView" class="p-3 bg-light align-self-center shadow-lg" style="min-height: 800px; height: auto; width: 100%;"></div>
+					<textarea id="menuPre" class="p-3 bg-light align-self-center visually-hidden shadow-lg" style="height: auto; overflow-y: hidden; min-height: 800px; resize: none; width: 100%;"></textarea>
 				</div>
 			</div>
 		</div>
@@ -242,6 +244,24 @@
 			</div>
 		</div>
 
+		<!-- NEW Document name modal -->
+		<div class="modal" id="newDocumentNameBox" tabindex="-1">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title">Enter a document name</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				<input type="text" class="form-control" id="newDocumentNameInput" placeholder="Document name">
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary bg-primary" id="newDocumentNameSubmit" data-bs-dismiss="modal">Submit</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
 		<!-- Info modal -->
 		<div class="modal" id="infoBox" tabindex="-1">
 			<div class="modal-dialog">
@@ -253,7 +273,45 @@
 				<div class="modal-body" id="infoContent">
 				</div>
 				<div class="modal-footer">
-				<button type="button" class="btn btn-secondary bg-primary" id="documentNameSubmit" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
+		<!-- Delete ALL modal -->
+		<div class="modal" id="deleteAllBox" tabindex="-1">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="infoTitle">Delete all?</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="infoContent">
+					<span style="color: red; font-size: 22px;">This will delete all documents in the database!!</span><br>Are you sure you want do do this?
+				</div>
+				<div class="modal-footer">
+				<button type="button" id="deleteAllYes" class="btn btn-secondary bg-success" data-bs-dismiss="modal">Yes</button>
+				<button type="button" class="btn btn-secondary bg-danger" id="documentNameSubmit" data-bs-dismiss="modal">No</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
+		<!-- Delete Last modal -->
+		<div class="modal" id="deleteLastBox" tabindex="-1">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="infoTitle">Delete all?</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="infoContent">
+					<span style="color: red; font-size: 22px;">This will delete the last document saved!!</span><br>Are you sure you want do do this?
+				</div>
+				<div class="modal-footer">
+				<button type="button" id="deleteLastYes" class="btn btn-secondary bg-success" data-bs-dismiss="modal">Yes</button>
+				<button type="button" class="btn btn-secondary bg-danger" data-bs-dismiss="modal">No</button>
 				</div>
 			</div>
 			</div>

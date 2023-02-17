@@ -153,6 +153,10 @@ $('#logOutClick').click(function() {
 
 $('#pullLatestClick').click(function() {
 	pullLatestMenu();
+
+	$('#infoTitle').text('Document pulled');	//display incorrect message
+	$('#infoContent').text('Latest document was pulled from the database.');
+	infoModal.show()
 });
 
 //Render either html or markdown
@@ -184,7 +188,7 @@ $('#mdConvert').click(function() {
 
 //When clicked any text found highlighted will be input markdown header
 $('#insertHeading').click(function() {
-	// if in html view
+	// if in markdown view
 	if ( markdownOption == false ) {
 		$('#infoTitle').text('Incorrect view');	//display incorrect message
 		$('#infoContent').text('Please switch to Markdown view to insert a heading.');
@@ -209,7 +213,7 @@ $('#insertHeading').click(function() {
 });
 
 $('#insertLink').click(function() {
-	// if in html view
+	// if in markdown view
 	if ( markdownOption == false ) {
 		$('#infoTitle').text('Incorrect view');	//display incorrect message
 		$('#infoContent').text('Please switch to Markdown view to insert a link.');
@@ -234,7 +238,7 @@ $('#insertLink').click(function() {
 });
 
 $('#insertUnorderedList').click(function() {
-	// if in html view
+	// if in markdown view
 	if ( markdownOption == false ) {
 		$('#infoTitle').text('Incorrect view');	//display incorrect message
 		$('#infoContent').text('Please switch to Markdown view to insert a unordered list.');
@@ -267,7 +271,7 @@ $('#insertUnorderedList').click(function() {
 });
 
 $('#insertOrderedList').click(function() {
-	// if in html view
+	// if in markdown view
 	if ( markdownOption == false ) {
 		$('#infoTitle').text('Incorrect view');	//display incorrect message
 		$('#infoContent').text('Please switch to Markdown view to insert a ordered list.');
@@ -297,6 +301,84 @@ $('#insertOrderedList').click(function() {
 		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + highlightedTextArrayNew + $('#menuPre').val().substring(cursorPosition) ); // insert new list
 	}
 });
+
+$('#documentName').click(function() {
+	// if in html view
+	if ( markdownOption == true ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to HTML view to change the name of the document.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
+	documentNameModal = new bootstrap.Modal($('#newDocumentNameBox')); // Create new modal
+	documentNameModal.show(); // Show modal when clicked
+});
+
+$('#newDocumentNameSubmit').click(function() {
+
+	const documentName = $('#newDocumentNameInput').val();
+
+	if (documentName == '') {
+		$('#infoTitle').text('No name found');	//display no menu message
+		$('#infoContent').text('Please enter a name for the menu.');
+		infoModal.show()
+	}
+	
+	if (documentName != '') {
+		uploadMenuDocument(documentName, HTMLToMarkdown($('#menuView').html()));		
+		$('#newDocumentNameInput').val('');
+	}
+
+}); 
+
+deleteAllModal = new bootstrap.Modal($('#deleteAllBox')); // Create new modal
+
+$('#deleteALLDocumentsClick').click(function() {
+	deleteAllModal.show(); // Show modal when clicked
+})
+
+$('#deleteAllYes').click(function() { // if yess clicked delete all documents
+	$.ajax({
+		url: '/deletealldocuments',
+		type: 'GET',
+		success: function(result) {
+			$('#infoTitle').text('All documents deleted');	//display no menu message
+			$('#infoContent').text('All documents have been deleted.');
+			infoModal.show()
+
+			$('#documentName').text('default') // reset document name
+			$('#documentTimeStamp').text('Upload file'); // reset document timestamp
+			$('#menuView').html(''); // reset menu view
+		}
+	});
+});
+
+$('#deleteLastDocumentClick').click(function() {
+	lastModal = new bootstrap.Modal($('#deleteLastBox')); // Create new modal
+	lastModal.show(); // Show modal when clicked
+});
+
+$('#deleteLastYes').click(function() {
+	$.ajax({
+		url: '/deletelastdocument',
+		type: 'GET',
+		success: function(result) {
+			$('#infoTitle').text('Last document deleted');	//display last menu message
+			$('#infoContent').text('The last saved document has been deleted.');
+			infoModal.show()
+
+			pullLatestMenu(); // pull the latest menu from the database
+		}
+	});
+});
+
+
+
+
+
+
+
 
 //Grab the latest menu from the database
 function pullLatestMenu() {

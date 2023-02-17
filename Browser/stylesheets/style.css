@@ -39,6 +39,14 @@ transform: scale(1.2);
     filter: alpha(opacity=100);
 }
 
+.hoverColour{
+	color: white;
+}
+
+.hoverColour:hover{
+	color: lightgrey;
+}
+
 @media (max-width: 500px) {
 	#loginBox{
 		height: 200px;

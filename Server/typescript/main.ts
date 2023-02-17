@@ -57,6 +57,8 @@ import './routes/upload'
 import './routes/latest'
 import './routes/logout'
 import './routes/updatemenu'
+import './routes/deletealldocuments'
+import './routes/deletelastdocument'
 
 //Starts the server and connects to the database
 app.listen(port, async () => {

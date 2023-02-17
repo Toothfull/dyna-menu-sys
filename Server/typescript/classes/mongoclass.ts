@@ -170,6 +170,18 @@ export class MongoDB {
 		}
 	}
 
+	//Delete latest menu document from the database
+	public static async deleteLatestDocument (){
+		const menuCollection = MongoDB.database.collection<menuDocument>(MongoDB.collectionName1)
+		try { //try deleting menu document with the earliest timestamp
+			const menuDocument = await menuCollection.find().sort({timestamp: -1}).limit(1).toArray()
+			await menuCollection.deleteOne(menuDocument[0])
+		} catch (err) { //If error occurs
+			log.error(err)
+			log.info('Error deleting latest document')
+		}
+	}
+
 	//deletes all documents from the database
 	public static async deleteAllDocuments (){
 		const meuCollection = MongoDB.database.collection<menuDocument>(MongoDB.collectionName1)
