@@ -184,6 +184,14 @@ $('#mdConvert').click(function() {
 
 //When clicked any text found highlighted will be input markdown header
 $('#insertHeading').click(function() {
+	// if in html view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a heading.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
 	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
@@ -201,6 +209,14 @@ $('#insertHeading').click(function() {
 });
 
 $('#insertLink').click(function() {
+	// if in html view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a link.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
 	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
@@ -214,6 +230,71 @@ $('#insertLink').click(function() {
 		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
 		// Pastes the highlighted text back with the # at the start
 		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `[${highlightedText}](http://www.example.com/)` + $('#menuPre').val().substring(cursorPosition) );
+	}
+});
+
+$('#insertUnorderedList').click(function() {
+	// if in html view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a unordered list.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the a dummy to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '\n* Item 1 \n* Item 2 \n* Item 3 \n' + $('#menuPre').val().substring(cursorPosition) );
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+
+
+		// adds a '1. to the start of each line
+		const highlightedTextArray = highlightedText.split('\n'); // split the text into an array per line
+		let highlightedTextArrayNew = []; // create a new array to store the new list
+		for (let i = 0; i < highlightedTextArray.length; i++) { //loop till the end of the old array
+			highlightedTextArrayNew.push('* ' + highlightedTextArray[i]); // add a '* ' to the start of each line
+		}
+		highlightedTextArrayNew = highlightedTextArrayNew.join('\n'); // join the array back into a string
+
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) ); //remove all highlited content
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + highlightedTextArrayNew + $('#menuPre').val().substring(cursorPosition) ); // insert new list
+
+	}
+});
+
+$('#insertOrderedList').click(function() {
+	// if in html view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a ordered list.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the a dummy to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '\n1. Item 1 \n1. Item 2 \n1. Item 3 \n' + $('#menuPre').val().substring(cursorPosition) );
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+
+
+		// adds a '1. to the start of each line
+		const highlightedTextArray = highlightedText.split('\n'); // split the text into an array per line
+		let highlightedTextArrayNew = []; // create a new array to store the new list
+		for (let i = 0; i < highlightedTextArray.length; i++) { //loop till the end of the old array
+			highlightedTextArrayNew.push('1. ' + highlightedTextArray[i]); // add a '* ' to the start of each line
+		}
+		highlightedTextArrayNew = highlightedTextArrayNew.join('\n'); // join the array back into a string
+
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) ); //remove all highlited content
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + highlightedTextArrayNew + $('#menuPre').val().substring(cursorPosition) ); // insert new list
 	}
 });
 
