@@ -1,6 +1,9 @@
 //Stores whether the user is viewing markdown or html
 let markdownOption = false
 
+
+infoModal = new bootstrap.Modal($('#infoBox')); //info modal
+
 //on load
 $(function() {
 	//get the user's google data
@@ -66,16 +69,29 @@ function uploadMenuDocument( documentName, documentText ) {
 			contentType: 'application/json',
 			success: function(data) {
 				console.log('menu update successful!\n' + data);
-				alert('Upload successful!')
-				pullLatestMenu();
+				
+				$('#infoTitle').text('Success!');	//display success message
+				$('#infoContent').text('Document was uploaded successfully!');
+				infoModal.show()
+
+				pullLatestMenu();//update the menu
 			},
 			error: function(data) {
 				console.log('menu update failed!\n' + data);
+
+				$('#infoTitle').text('Failed');	//display failed message
+				$('#infoContent').text('Document did not upload successfully!');
+				infoModal.show()
+
 			}
 		});
 	} catch (error) {
 		console.log(error); //if error, log it
-		alert('Error uploading menu. Please try again later. If this error persists, please contact the developer.')
+
+		$('#infoTitle').text('Failed');	//display failed message
+		$('#infoContent').text('Menu upload failed!');
+		infoModal.show()
+
 	}
 }
 
@@ -85,7 +101,6 @@ $('#documentNameSubmit').click(function() {
 	documentName = $('#documentNameInput').val();
 	nameModal.hide();
 	if (documentName == '') {
-		alert('Please enter a name for the document');
 		nameModal.show();
 	} else {
 		// try upload document as here
@@ -105,7 +120,11 @@ $('#uploadButton').click(function() {
 		}
 
 	} else { //else in markdown view
-		alert('Please switch to HTML view before uploading')
+		
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to HTML view to upload a document.');
+		infoModal.show()
+
 	}
 });
 
@@ -163,12 +182,49 @@ $('#mdConvert').click(function() {
 
 })
 
+//When clicked any text found highlighted will be input markdown header
+$('#insertHeading').click(function() {
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '#' + $('#menuPre').val().substring(cursorPosition) ); 
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		// Gets the text from the highlighted text
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+		// Replaces the highlighted text with nothing
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
+		// Pastes the highlighted text back with the # at the start
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `# ${highlightedText}` + $('#menuPre').val().substring(cursorPosition) );
+	}
+});
+
+$('#insertLink').click(function() {
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '[ExampleText](http://www.example.com/)' + $('#menuPre').val().substring(cursorPosition) ); 
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		// Gets the text from the highlighted text
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+		// Replaces the highlighted text with nothing
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
+		// Pastes the highlighted text back with the # at the start
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `[${highlightedText}](http://www.example.com/)` + $('#menuPre').val().substring(cursorPosition) );
+	}
+});
+
 //Grab the latest menu from the database
 function pullLatestMenu() {
 	$.getJSON('/latest', function(latestDocument) {
 
 		if (latestDocument == null) {
-			alert('No menu found. Please upload a menu.')
+				$('#infoTitle').text('No menu was found');	//display no menu message
+				$('#infoContent').text('No menu was found on the database. Please edit the page below and upload a menu.');
+				infoModal.show()
 			return;
 		}
 
