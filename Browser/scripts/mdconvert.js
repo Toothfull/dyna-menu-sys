@@ -9,6 +9,11 @@ function markdownToHTML(markdownString) {
 		//Current line
 		let markdownLine = markdownLines[lineNumber];
 
+		if ( markdownLine.length <= 0 ) {
+			htmlLines.push( '<p></p>' );
+			continue;
+		};
+
 		//Lines before and after current
 		let previousLines = markdownLines.slice(0,lineNumber);
 		let nextLines = markdownLines.slice(lineNumber+1);
@@ -199,13 +204,13 @@ function HTMLToMarkdown() {
 			htmlLine = htmlLine.replaceAll( /<a href="(.*)">(.*)<\/a>/g, "[$2]($1)" )
 
 			//Push if an empty line
-			if (htmlLine.length > 0) {
+			//if (htmlLine.length > 0) {
 				markdownLines.push(htmlLine)
-			}
+			//}
 
 			//add an empty line if there was a paragraph tag
 			if (wasThereAParagraphTagAndDoINeedANewLine == true) {
-				markdownLines.push( '' );
+				//markdownLines.push( '' );
 			}
 		}
 
