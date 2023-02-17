@@ -7,7 +7,7 @@ const log = getLogger( 'deletelastdocument' )
 
 //Deletes all the earliest document in the database
 app.get('/deletelastdocument', async (_, res) => {
-    log.info('Deleting last documents')
-    await MongoDB.deleteLatestDocument()
-    res.send('Deleted last document')
+	log.info('Deleting last documents')
+	await MongoDB.deleteLatestDocument()
+	res.send('Deleted last document')
 })

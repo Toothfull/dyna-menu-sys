@@ -7,7 +7,7 @@ const log = getLogger( 'deletealldocuments' )
 
 //Deletes all documents in the database
 app.get('/deletealldocuments', async (_, res) => {
-    log.info('Deleting all documents')
-    await MongoDB.deleteAllDocuments()
-    res.send('Deleted all documents')
+	log.info('Deleting all documents')
+	await MongoDB.deleteAllDocuments()
+	res.send('Deleted all documents')
 })
