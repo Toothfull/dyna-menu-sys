@@ -385,7 +385,6 @@ $('#deleteLastYes').click(function() {
 
 
 
-
 $('#clickRed').click(function() {
 	colourMarkdownInsert('#FF0000')
 })
@@ -433,6 +432,187 @@ $('#clickWhite').click(function() {
 
 
 
+//detects where the mouse is on the page
+var currentMousePos = { x: -1, y: -1 };
+$(document).mousemove(function(event) {
+	currentMousePos.x = event.pageX;
+	currentMousePos.y = event.pageY;
+});
+
+
+// detect if context menu is opened
+$('#Canvas').contextmenu(function() {
+	$('#contextMenu').css('top', currentMousePos.y + 'px');
+	$('#contextMenu').css('left', currentMousePos.x + 'px');
+	$('#contextMenu').show()
+})
+
+//if left clicked off the context menu
+$('#Canvas').click(function() {
+	$('#contextMenu').hide()
+})
+
+
+$('#boldClick').click(function() {
+	// hide context menu
+	$('#contextMenu').hide()
+
+	// if in markdown view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a heading.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '**Bold text**' + $('#menuPre').val().substring(cursorPosition) ); 
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		// Gets the text from the highlighted text
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+		// Replaces the highlighted text with nothing
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
+		// Pastes the highlighted text back with the # at the start
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `**${highlightedText}**` + $('#menuPre').val().substring(cursorPosition) );
+	}
+})
+$('#italClick').click(function() {
+	// hide context menu
+	$('#contextMenu').hide()
+
+	// if in markdown view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a heading.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '*Italic text*' + $('#menuPre').val().substring(cursorPosition) ); 
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		// Gets the text from the highlighted text
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+		// Replaces the highlighted text with nothing
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
+		// Pastes the highlighted text back with the # at the start
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `*${highlightedText}*` + $('#menuPre').val().substring(cursorPosition) );
+	}
+})
+$('#strikeClick').click(function() {
+	// hide context menu
+	$('#contextMenu').hide()
+
+	// if in markdown view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a heading.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '~~Strikeout text~~' + $('#menuPre').val().substring(cursorPosition) ); 
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		// Gets the text from the highlighted text
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+		// Replaces the highlighted text with nothing
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
+		// Pastes the highlighted text back with the # at the start
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `~~${highlightedText}~~` + $('#menuPre').val().substring(cursorPosition) );
+	}
+
+})
+$('#underClick').click(function() {	
+	// hide context menu
+	$('#contextMenu').hide()
+
+	// if in markdown view
+	if ( markdownOption == false ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to Markdown view to insert a heading.');
+		infoModal.show()
+		return 0; // exit function
+	}
+
+	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '__Underlined text__' + $('#menuPre').val().substring(cursorPosition) ); 
+	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+		// Gets the text from the highlighted text
+		const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+		// Replaces the highlighted text with nothing
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
+		// Pastes the highlighted text back with the # at the start
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `__${highlightedText}__` + $('#menuPre').val().substring(cursorPosition) );
+	}
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 pullModal = new bootstrap.Modal($('#pullBox')); // Create new modal
 //disable modal from closing
 pullModal._config.backdrop = 'static';
@@ -473,7 +653,7 @@ function colourMarkdownInsert (colour){
 		if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
 			const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 			// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
-			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `%${colour},TextGoesHere%` + $('#menuPre').val().substring(cursorPosition) ); 
+			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `{${colour},TextGoesHere}` + $('#menuPre').val().substring(cursorPosition) ); 
 		} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
 			const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 			const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
@@ -482,6 +662,6 @@ function colourMarkdownInsert (colour){
 			// Replaces the highlighted text with nothing
 			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
 			// Pastes the highlighted text back with the # at the start
-			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `%${colour},${highlightedText}%` + $('#menuPre').val().substring(cursorPosition) );
+			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `{${colour},${highlightedText}}` + $('#menuPre').val().substring(cursorPosition) );
 		}
 }

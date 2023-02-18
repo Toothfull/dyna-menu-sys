@@ -64,6 +64,39 @@
 				</nav>
 			</div>
 
+			<style>
+				#contextMenu {
+					position: fixed;
+					z-index: 10000;
+					width: 80px;
+					background-color: #3884ff;
+					display: none;
+				}
+				#contextMenu .visible {
+					display: block;
+				}
+				#contextMenu .item{
+					cursor: pointer;
+					font-size: 15px;
+					border-radius: inherit;
+				}
+
+			</style>
+
+			<!-- Context menu -->
+			<div id="contextMenu" class="container-fluid rounded shadow-lg" oncontextmenu="return false;">
+				<div class="row">
+					<div id="boldClick" class="col-6 item text-center"><span style="font-size: 20px; color: white;"><strong>B</strong></span></div>
+					<div id="italClick" class="col-6 item text-center"><span style="font-size: 20px; color: white;"><em>I</em></span></div>
+				</div>
+				<div class="row">
+					<div id="strikeClick" class="col-6 item text-center"><span style="font-size: 20px; color: white;"><s>S</s></span></div>
+					<div id="underClick" class="col-6 item text-center"><span style="font-size: 20px; color: white;"><u>U</u></span></div>
+				</div>
+
+
+			</div>
+
 			<!-- Menu bar at the bottom -->
 			<div id="Menubar" class="row fixed-bottom">
 				<div class="col-3 text-left">
@@ -199,7 +232,8 @@
 		<!-- Canvas for the menu content -->
 		<div id="Canvas" class="container">
 
-			<div class="d-flex justify-content-center">
+			<!-- Disables context menu!!!!! -->
+			<div class="d-flex justify-content-center" oncontextmenu="return false;"> 
 				<div style="width: 650px; padding-top: 100px; padding-bottom: 170px;">
 					<div id="menuView" class="p-3 bg-light align-self-center shadow-lg" style="min-height: 800px; height: auto; width: 100%;"></div>
 					<textarea id="menuPre" class="p-3 bg-light align-self-center visually-hidden shadow-lg" style="height: auto; overflow-y: hidden; min-height: 800px; resize: none; width: 100%;"></textarea>
