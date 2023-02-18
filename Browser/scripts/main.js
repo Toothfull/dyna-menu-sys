@@ -152,6 +152,15 @@ $('#logOutClick').click(function() {
 });
 
 $('#pullLatestClick').click(function() {
+
+	// if in html view
+	if ( markdownOption == true ) {
+		$('#infoTitle').text('Incorrect view');	//display incorrect message
+		$('#infoContent').text('Please switch to HTML view to view the latest document');
+		infoModal.show()
+		return 0; // exit function
+	}
+
 	pullLatestMenu();
 
 	$('#infoTitle').text('Document pulled');	//display incorrect message
@@ -377,11 +386,59 @@ $('#deleteLastYes').click(function() {
 
 
 
+$('#clickRed').click(function() {
+	colourMarkdownInsert('#FF0000')
+})
+$('#clickOrange').click(function() {
+	colourMarkdownInsert('#FFA500')
+
+})
+$('#clickYellow').click(function() {
+	colourMarkdownInsert('#FFFF00')
+})
 
 
 
+$('#clickGreen').click(function() {
+	colourMarkdownInsert('#008000')
+})
+$('#clickBlue').click(function() {
+	colourMarkdownInsert('#0000FF')
+})
+$('#clickPurple').click(function() {
+	colourMarkdownInsert('#800080')
+})
+
+
+$('#clickPink').click(function() {
+	colourMarkdownInsert('#FFC0CB')
+})
+$('#clickBrown').click(function() {
+	colourMarkdownInsert('#A52A2A')
+})
+$('#clickTan').click(function() {
+	colourMarkdownInsert('#D2B48C')
+})
+
+
+$('#clickPlum').click(function() {
+	colourMarkdownInsert('#DDA0DD')
+})
+$('#clickGrey').click(function() {
+	colourMarkdownInsert('#808080')
+})
+$('#clickWhite').click(function() {
+	colourMarkdownInsert('#FFFFFF')
+})
+
+
+
+pullModal = new bootstrap.Modal($('#pullBox')); // Create new modal
+//disable modal from closing
+pullModal._config.backdrop = 'static';
 //Grab the latest menu from the database
 function pullLatestMenu() {
+	pullModal.show()
 	$.getJSON('/latest', function(latestDocument) {
 
 		if (latestDocument == null) {
@@ -400,5 +457,31 @@ function pullLatestMenu() {
 		$('#documentName').text(fileName);
 
 		$('#menuView').html(markdownToHTML(fileLines.join('\n')));
+		pullModal.hide()
 	});
+}
+
+function colourMarkdownInsert (colour){
+		// if in markdown view
+		if ( markdownOption == false ) {
+			$('#infoTitle').text('Incorrect view');	//display incorrect message
+			$('#infoContent').text('Please switch to Markdown view to insert a heading.');
+			infoModal.show()
+			return 0; // exit function
+		}
+	
+		if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
+			const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+			// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
+			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `%${colour},TextGoesHere%` + $('#menuPre').val().substring(cursorPosition) ); 
+		} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
+			const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
+			const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
+			// Gets the text from the highlighted text
+			const highlightedText = $('#menuPre').val().substring(cursorPosition, cursorEndPosition);
+			// Replaces the highlighted text with nothing
+			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '' + $('#menuPre').val().substring(cursorEndPosition) );
+			// Pastes the highlighted text back with the # at the start
+			$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + `%${colour},${highlightedText}%` + $('#menuPre').val().substring(cursorPosition) );
+		}
 }

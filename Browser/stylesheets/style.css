@@ -47,6 +47,25 @@ transform: scale(1.2);
 	color: lightgrey;
 }
 
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute; top: -330px; left: -50px;
+	background-color: #4a8fff;
+	min-width: 250px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	
+}
+
+.dropdown:hover .dropdown-content{
+	display: block;
+}
+
 @media (max-width: 500px) {
 	#loginBox{
 		height: 200px;

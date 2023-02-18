@@ -72,8 +72,71 @@
 				<div class="col-6 align-self-end">
 					<div class="row bg-primary p-3 rounded-4 m-1 transparencyBar">
 						<!-- Color picker -->
-						<div class="col-2 text-center">
-							<img id="colorPicker" class="rounded img-fluid zoom" src="assets/images/colourpicker.png" alt="Profile Picture" width="100" height="100" style="cursor: pointer;">
+						<div class="col-2 text-center dropdown">
+							<img id="colorPicker" class="rounded img-fluid zoom" src="assets/images/colourpicker.png" alt="Profile Picture" width="100" height="100">
+
+							<div class="dropdown-content container-fluid rounded">
+								<div class="row">
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickRed" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: red;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickOrange" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: orange;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickYellow" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: yellow;"></div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickGreen" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: green;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickBlue" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: blue;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickPurple" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: purple;"></div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickPink" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: pink;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickBrown" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer;  background-color: brown;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickTan" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer;  background-color: tan;"></div>
+									</div>
+								</div>
+
+
+								<div class="row">
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickPlum" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer; background-color: plum;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickGrey" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer;  background-color: grey;"></div>
+									</div>
+
+									<div class="col-4" style="height: 80px; padding: 10px">
+										<div id="clickWhite" class="rounded-circle zoom" style="height: 100%; width: 100%; cursor: pointer;  background-color: white;"></div>
+									</div>
+								</div>
+							</div>
+							
+
+
+
 						</div>
 
 						<!-- Inserting link -->
@@ -312,6 +375,20 @@
 				<div class="modal-footer">
 				<button type="button" id="deleteLastYes" class="btn btn-secondary bg-success" data-bs-dismiss="modal">Yes</button>
 				<button type="button" class="btn btn-secondary bg-danger" data-bs-dismiss="modal">No</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
+		<!-- Pulling document modal -->
+		<div class="modal" id="pullBox" tabindex="-1">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title">Pulling latest document</h5>
+				</div>
+				<div class="modal-body">
+					Downloading latest document from database please wait!
 				</div>
 			</div>
 			</div>
