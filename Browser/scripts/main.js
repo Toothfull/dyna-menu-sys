@@ -624,6 +624,7 @@ function pullLatestMenu() {
 		if (latestDocument == null) {
 				$('#infoTitle').text('No menu was found');	//display no menu message
 				$('#infoContent').text('No menu was found on the database. Please edit the page below and upload a menu.');
+				pullModal.hide()
 				infoModal.show()
 			return;
 		}

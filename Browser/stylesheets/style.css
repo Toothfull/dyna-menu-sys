@@ -66,6 +66,22 @@ transform: scale(1.2);
 	display: block;
 }
 
+#contextMenu {
+	position: fixed;
+	z-index: 10000;
+	width: 80px;
+	background-color: #3884ff;
+	display: none;
+}
+#contextMenu .visible {
+	display: block;
+}
+#contextMenu .item{
+	cursor: pointer;
+	font-size: 15px;
+	border-radius: inherit;
+}
+
 @media (max-width: 500px) {
 	#loginBox{
 		height: 200px;

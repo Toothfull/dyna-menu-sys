@@ -36,6 +36,7 @@ function markdownToHTML(markdownString) {
 		markdownLine = markdownLine.replaceAll(/~~(.*?)~~/g, '<s>$1</s>'); // Strikethrough
 		markdownLine = markdownLine.replaceAll(/!\[(.*?)\]\((.*?)\)/g, '<img src=\'$2\' alt=\'$1\' width=\'128px\' />'); // Images
 		markdownLine = markdownLine.replaceAll(/\[(.*?)\]\((.*?)\)/g, '<a href=\'$2\'>$1</a>'); // Links
+		markdownLine = markdownLine.replaceAll(/\{(#[0-9A-Fa-f]{6}),(.+)\}/g, '<span style=\'color: $1;\'>$2</span>'); // Colored text
 
 		//Push edited line if it changed
 		if (didHeadingChange||didUnorderedListChange||didOrderedListChange) {
