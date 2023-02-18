@@ -208,7 +208,7 @@ $('#insertHeading').click(function() {
 	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		// Gets the position from the start of the text to the cursor and adds the # to the end of it on the cursor position then re adds all the content back
-		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '#' + $('#menuPre').val().substring(cursorPosition) ); 
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '# Header 1' + $('#menuPre').val().substring(cursorPosition) ); 
 	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;

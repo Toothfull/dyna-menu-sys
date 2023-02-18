@@ -34,9 +34,9 @@ function markdownToHTML(markdownString) {
 		markdownLine = markdownLine.replaceAll(/\*(.*?)\*/g, '<em>$1</em>'); // Italic
 		markdownLine = markdownLine.replaceAll(/__(.*?)__/g, '<u>$1</u>'); // Underline
 		markdownLine = markdownLine.replaceAll(/~~(.*?)~~/g, '<s>$1</s>'); // Strikethrough
-		markdownLine = markdownLine.replaceAll(/!\[(.*?)\]\((.*?)\)/g, '<img src=\'$2\' alt=\'$1\' width=\'128px\' />'); // Images
-		markdownLine = markdownLine.replaceAll(/\[(.*?)\]\((.*?)\)/g, '<a href=\'$2\'>$1</a>'); // Links
-		markdownLine = markdownLine.replaceAll(/\{(#[0-9A-Fa-f]{6}),(.+)\}/g, '<span style=\'color: $1;\'>$2</span>'); // Colored text
+		markdownLine = markdownLine.replaceAll(/!\[(.*?)\]\((.*?)\)/g, '<img src=\"$2\" alt=\"$1\" width=\"128px\" />'); // Images
+		markdownLine = markdownLine.replaceAll(/\[(.*?)\]\((.*?)\)/g, '<a href=\"$2\">$1</a>'); // Links
+		markdownLine = markdownLine.replaceAll(/\{(#[0-9A-Fa-f]{6}),(.+?)\}/g, '<span style=\"color: $1;\">$2</span>'); // Colored text
 
 		//Push edited line if it changed
 		if (didHeadingChange||didUnorderedListChange||didOrderedListChange) {
@@ -203,6 +203,7 @@ function HTMLToMarkdown() {
 			htmlLine = htmlLine.replaceAll( /<em>(.*)<\/em>/g, "*$1*" )
 			htmlLine = htmlLine.replaceAll( /<s>(.*)<\/s>/g, "~~$1~~" )
 			htmlLine = htmlLine.replaceAll( /<a href="(.*)">(.*)<\/a>/g, "[$2]($1)" )
+			htmlLine = htmlLine.replaceAll( /<span style="color: (#[0-9A-Fa-f]{6});">(.+?)<\/span>/g, '{$1,$2}' )
 
 			//Push if an empty line
 			//if (htmlLine.length > 0) {
