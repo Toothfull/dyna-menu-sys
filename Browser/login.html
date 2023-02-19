@@ -4,6 +4,7 @@
 		<title>DMS Login</title>
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
 
+		<!-- Viewport -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
@@ -27,8 +28,14 @@
 
 	</head>
 	<body>
+
 		<!-- division which takes up the whole screen -->
 		<div class="container-fluid min-vh-100 d-flex flex-column justify-content-center">
+
+			<!-- warning box for users who arent verified -->
+			<div id="notVerifiedWarning" class="alert alert-danger text-center align-self-center" style="width : 300px; display: none;" role="alert">
+				WARNING! User account is not verified to access this page. Please log in with a verified account.
+			</div>
 
 			<!-- the login box -->
 			<div id="loginBox" class="align-self-center rounded-5 p-3 shadow-lg">

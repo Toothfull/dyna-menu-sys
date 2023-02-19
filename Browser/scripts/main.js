@@ -16,7 +16,6 @@ $(document).mousemove(function(event) {
 $(function() {
 	//get the user's google data
 	$.getJSON('/session', function(data) {
-		console.dir( data )
 
 		//if the user is not logged in, redirect to login page
 		if (data.id == null) {

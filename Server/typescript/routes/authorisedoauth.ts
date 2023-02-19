@@ -4,6 +4,7 @@ import { MongoDB } from '../classes/mongoclass'
 
 //Imports log4js and sets file name for this file
 import { getLogger } from 'log4js'
+import session from 'express-session'
 const log = getLogger( 'authorisedoauth' )
 
 //Imports clientID and clientSecret from .env file
@@ -87,7 +88,11 @@ app.get('/authorisedoauth', async (request, response) => {
 			if (isVerified){
 				response.redirect('/index.html')
 			} else { //If the user is not verified, respond with not verified
-				response.send('not verified')
+				//destroys session and redirects to login page
+				request.session.destroy(() => {
+					response.redirect('/login.html?notverified=true') //Tags the url with notverified=true
+				})
+				
 			}
 		})
 	}
