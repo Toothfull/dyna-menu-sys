@@ -85,4 +85,20 @@ suite( 'Integration tests', () => {
 		})
 	})
 
+	test( 'Check if documents are deleted', (done) => {
+		chai.request(app).get('/deletealldocuments').send().end((_, Response) => {
+			chai.assert.equal(Response.status, 200, 'Status code is not 200')
+			chai.assert.equal(Response.text, 'Deleted all documents', 'All documents were not deleted')
+			done()
+		})
+	})
+
+	test( 'Check if last document was deleted', (done) => {
+		chai.request(app).get('/deletelastdocument').send().end((_, Response) => {
+			chai.assert.equal(Response.status, 200, 'Status code is not 200')
+			chai.assert.equal(Response.text, 'Deleted last document', 'Last document was not deleted')
+			done()
+		})
+	})
+
 } )
