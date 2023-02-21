@@ -29,4 +29,27 @@ jobs:
         with:
           name: log
           path: log.log
+
+  lintjs:
+    name: Lintjs
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: ./Browser/
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Lint with ESlint
+        run: npx eslint ./
         
