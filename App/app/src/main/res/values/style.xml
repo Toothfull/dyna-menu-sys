@@ -4,6 +4,8 @@
         <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
                 <!-- Custom theme colors go here -->
                 <item name="colorPrimaryDark">@color/hideStatusBar</item>
+                <item name="windowActionBar">false</item>
+                <item name="windowNoTitle">true</item>
         </style>
 
 
