@@ -1,0 +1,10 @@
+<resources>
+
+        <!-- Application style is here! -->
+        <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+                <!-- Custom theme colors go here -->
+                <item name="colorPrimaryDark">@color/hideStatusBar</item>
+        </style>
+
+
+</resources>

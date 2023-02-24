@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dynamic Menu System</string>
+    <string name="default_text">This is a default text string incase a menu wasnt found</string>
+    <string name="drawerExplanation">Drawer Menu Layout</string>
+</resources>
