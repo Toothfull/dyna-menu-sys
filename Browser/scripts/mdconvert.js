@@ -198,10 +198,10 @@ function HTMLToMarkdown() {
 
 		//Checks if converted into a heading/list/order list
 		if (didHeadingChange == false || didListChange == false || didOrderedListChange == false) {
-			htmlLine = htmlLine.replaceAll( /<strong>(.*)<\/strong>/g, "**$1**" )
-			htmlLine = htmlLine.replaceAll( /<u>(.*)<\/u>/g, "__$1__" )
-			htmlLine = htmlLine.replaceAll( /<em>(.*)<\/em>/g, "*$1*" )
-			htmlLine = htmlLine.replaceAll( /<s>(.*)<\/s>/g, "~~$1~~" )
+			htmlLine = htmlLine.replaceAll( /<strong>(.*?)<\/strong>/g, "**$1**" )
+			htmlLine = htmlLine.replaceAll( /<u>(.*?)<\/u>/g, "__$1__" )
+			htmlLine = htmlLine.replaceAll( /<em>(.*?)<\/em>/g, "*$1*" )
+			htmlLine = htmlLine.replaceAll( /<s>(.*?)<\/s>/g, "~~$1~~" )
 			htmlLine = htmlLine.replaceAll( /<a href="(.*)">(.*)<\/a>/g, "[$2]($1)" )
 			htmlLine = htmlLine.replaceAll( /<span style="color: (#[0-9A-Fa-f]{6});">(.+?)<\/span>/g, '{$1,$2}' )
 
