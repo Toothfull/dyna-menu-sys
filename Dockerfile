@@ -1,18 +1,23 @@
 # Start the image using Node 18
 FROM node:18
 
-# Create a new folder for our node.js project and switch to it
-RUN mkdir -p /app/ /app/uploads/
-WORKDIR /app/
+# Create a new directory for our project
+RUN mkdir -p /app/
 
 # Add the required files and directories
 COPY ./ /app/
 
+# Create the uploads directory
+RUN mkdir -p /app/Server/uploads
+
+# Switch to the server directory
+WORKDIR /app/Server
+
 # Install node packages
 RUN npm install
 
-EXPOSE 80 9000
+EXPOSE 9000
 
-# Define Start Command
+# Start server
 ENTRYPOINT [ "node" ]
-CMD [ "/app/" ]
+CMD [ "." ]
