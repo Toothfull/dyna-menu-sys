@@ -2,4 +2,11 @@
     <string name="app_name">Dynamic Menu System</string>
     <string name="default_text">This is a default text string incase a menu wasnt found</string>
     <string name="drawerExplanation">Drawer Menu Layout</string>
+    <string name="openButton">Open</string>
+    <string name="okayPrompt">Okay</string>
+    <string name="notOkayPrompt">Cancel</string>
+    <string name="networkDetails">Network details</string>
+    <string name="downloadLatest">Download latest document</string>
+    <string name="option3">Option3</string>
+    <string name="option4">Option4</string>
 </resources>

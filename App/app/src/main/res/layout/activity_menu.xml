@@ -15,20 +15,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="VisualLintOverlap" />
 
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/drawerExplanation">
 
 
         <com.google.android.material.navigation.NavigationView
+            app:insetForeground="@color/hideStatusBar"
             android:id="@+id/navigationView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start" />
+            app:menu="@menu/navigation_menu"
+            android:layout_gravity="start"
+            tools:ignore="VisualLintBounds" />
 
 
     </androidx.drawerlayout.widget.DrawerLayout>

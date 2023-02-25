@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/networkDetailsTab"
+        android:icon="@drawable/baseline_wifi_24"
+        android:title="@string/networkDetails"/>
+    <item
+        android:id="@+id/downloadLatestTab"
+        android:icon="@drawable/baseline_download_24"
+        android:title="@string/downloadLatest"/>
+    <item
+        android:id="@+id/Option3"
+        android:title="@string/option3"/>
+    <item
+        android:id="@+id/Option4"
+        android:title="@string/option4"/>
+
+
+
+
+
+</menu>
