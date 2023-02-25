@@ -64,6 +64,7 @@ jobs:
             ./Server/emit/
             ./Server/package.json
             ./Server/package-lock.json
+            ./Browser
 
   docker:
     name: Docker
@@ -84,10 +85,13 @@ jobs:
         name: ${{ env.ARTIFACT_NAME }}
         path: ./code/
 
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v2
+
     - name: Setup Docker
       uses: docker/setup-buildx-action@v2
       with:
-        platforms: linux/amd64
+        platforms: linux/amd64,linux/arm64/v8
 
     - name: Login to Docker
       uses: docker/login-action@v2
@@ -103,3 +107,48 @@ jobs:
         context: ./code/
         tags: ${{ env.REGISTRY_NAME }}/${{ github.repository_owner }}/${{ env.ARTIFACT_NAME }}:latest
         push: true
+        platforms: linux/amd64,linux/arm64/v8
+
+  deploy:
+    name: Deploy to Pi
+    runs-on: ubuntu-22.04
+    needs: docker
+    continue-on-error: true
+    permissions:
+      contents: read
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+      
+      - name: Download Cloudflare client
+        run: |
+          wget -O ~/cloudflared https://github.com/cloudflare/cloudflared/releases/download/2023.2.1/cloudflared-linux-amd64
+          chmod +x ~/cloudflared
+
+      - name: Save Cloudflare certificate
+        run: |
+          mkdir ~/.cloudflared
+          chmod 700 ~/.cloudflared
+          touch ~/.cloudflared/cert.pem
+          chmod 600 ~/.cloudflared/cert.pem
+          echo "${{ secrets.CLOUDFLARE_CERTIFICATE }}" | base64 -d > ~/.cloudflared/cert.pem
+
+      - name: Save SSH private key
+        run: |
+          mkdir ~/.ssh
+          chmod 700 ~/.ssh
+          touch ~/.ssh/github
+          chmod 600 ~/.ssh/github
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/github
+
+      - name: Show Neofetch on Pi
+        env:
+          TUNNEL_ORIGIN_CERT: /home/runner/.cloudflared/cert.pem
+        run: |
+          ssh -o 'IdentityFile ~/.ssh/github' -o 'IdentitiesOnly Yes' -o 'ProxyCommand ~/cloudflared access ssh --hostname %h --id ${{ secrets.CLOUDFLARE_ACCESS_ID }} --secret ${{ secrets.CLOUDFLARE_ACCESS_SECRET }}' ${{ secrets.SSH_USER_NAME }}@${{ secrets.SSH_SERVER_NAME }} 'neofetch'
+
+      - name: Update Docker container on Pi
+        env:
+          TUNNEL_ORIGIN_CERT: /home/runner/.cloudflared/cert.pem
+        run: |
+          ssh -o 'IdentityFile ~/.ssh/github' -o 'IdentitiesOnly Yes' -o 'ProxyCommand ~/cloudflared access ssh --hostname %h --id ${{ secrets.CLOUDFLARE_ACCESS_ID }} --secret ${{ secrets.CLOUDFLARE_ACCESS_SECRET }}' ${{ secrets.SSH_USER_NAME }}@${{ secrets.SSH_SERVER_NAME }} 'docker container stop dyna-menu-system && docker container remove dyna-menu-system && docker container run --name dyna-menu-system --env-file ./dyna-menu-system.env --network host --interactive --tty --detach --pull always ghcr.io/toothfull/dyna-menu-system:latest'
