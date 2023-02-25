@@ -4,7 +4,6 @@ import { MongoDB } from '../classes/mongoclass'
 
 //Imports log4js and sets file name for this file
 import { getLogger } from 'log4js'
-import session from 'express-session'
 const log = getLogger( 'authorisedoauth' )
 
 //Imports clientID and clientSecret from .env file
