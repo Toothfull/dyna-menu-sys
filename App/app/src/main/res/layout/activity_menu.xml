@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/drawerExplanation">
 
-
+        <!-- app:insetForeground="@color/hideStatusBar" annoyingly fixes colour issue with navdraw but does not fix padding -->
         <com.google.android.material.navigation.NavigationView
             app:insetForeground="@color/hideStatusBar"
             android:id="@+id/navigationView"

@@ -9,11 +9,28 @@
         android:icon="@drawable/baseline_download_24"
         android:title="@string/downloadLatest"/>
     <item
-        android:id="@+id/Option3"
-        android:title="@string/option3"/>
+        android:id="@+id/amIConnectedTab"
+        android:icon="@drawable/baseline_signal_wifi_statusbar_connected_no_internet_4_24"
+        android:title="@string/amIConnected"/>
     <item
-        android:id="@+id/Option4"
-        android:title="@string/option4"/>
+        android:id="@+id/reconnectTab"
+        android:icon="@drawable/baseline_wifi_protected_setup_24"
+        android:title="@string/reconnect"/>
+    <item
+        android:id="@+id/unlockDeviceTab"
+        android:icon="@drawable/baseline_lock_24"
+        android:title="@string/unlockDevice"/>
+
+    <item
+        android:id="@+id/turnOffDeviceTab"
+        android:icon="@drawable/baseline_power_settings_new_24"
+        android:title="@string/turnOffDevice"/>
+
+    <item
+        android:id="@+id/deviceStatistics"
+        android:icon="@drawable/baseline_info_24"
+        android:title="@string/deviceStatistics"/>
+
 
 
 

@@ -1,8 +1,12 @@
 package uk.dynamenusystem.dynamenusystem
 
+import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipData.Item
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -32,6 +36,7 @@ class MenuActivity : AppCompatActivity() {
         //Finds the layout and locks the swipe to open feature
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
 
     }
 

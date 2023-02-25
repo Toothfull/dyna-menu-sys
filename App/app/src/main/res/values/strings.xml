@@ -7,6 +7,9 @@
     <string name="notOkayPrompt">Cancel</string>
     <string name="networkDetails">Network details</string>
     <string name="downloadLatest">Download latest document</string>
-    <string name="option3">Option3</string>
-    <string name="option4">Option4</string>
+    <string name="amIConnected">Am i connected?</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="unlockDevice">Unlock device</string>
+    <string name="turnOffDevice">Turn off device</string>
+    <string name="deviceStatistics">Device Statistics</string>
 </resources>
