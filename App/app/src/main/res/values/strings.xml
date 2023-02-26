@@ -5,6 +5,7 @@
     <string name="openButton">Open</string>
     <string name="okayPrompt">Okay</string>
     <string name="notOkayPrompt">Cancel</string>
+
     <string name="networkDetails">Network details</string>
     <string name="downloadLatest">Download latest document</string>
     <string name="amIConnected">Am i connected?</string>
@@ -12,4 +13,7 @@
     <string name="unlockDevice">Unlock device</string>
     <string name="turnOffDevice">Turn off device</string>
     <string name="deviceStatistics">Device Statistics</string>
+
+    <string name="networkDetailsTabText">networkDetailsTab</string>
+
 </resources>
