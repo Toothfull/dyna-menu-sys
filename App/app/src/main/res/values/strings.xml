@@ -10,6 +10,7 @@
     <string name="downloadLatest">Download latest document</string>
     <string name="amIConnected">Am i connected?</string>
     <string name="reconnect">Reconnect</string>
+    <string name="pinDevice">Lock device</string>
     <string name="unlockDevice">Unlock device</string>
     <string name="turnOffDevice">Turn off device</string>
     <string name="deviceStatistics">Device Statistics</string>

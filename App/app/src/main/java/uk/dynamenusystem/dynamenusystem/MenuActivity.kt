@@ -31,165 +31,19 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-
-        val biometricManager = BiometricManager.from(this)
-        when (biometricManager.canAuthenticate(DEVICE_CREDENTIAL)) {
-            BiometricManager.BIOMETRIC_SUCCESS ->
-                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-                Log.e("MY_APP_TAG", "No biometric features available on this device.")
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                    putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                        DEVICE_CREDENTIAL)
-                }
-                startActivityForResult(enrollIntent, 1)
-            }
-            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
-                Log.e("MY_APP_TAG", "Security Update required.")
-            }
-            BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
-                Log.e("MY_APP_TAG", "Passcode feature is unsupported")
-            }
-            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
-                Log.e("MY_APP_TAG", "Unknown biometrics")
-            }
-        }
-
-        lateinit var biometricPrompt: BiometricPrompt
-        val executor: Executor = ContextCompat.getMainExecutor(this)
-            biometricPrompt = BiometricPrompt(this, executor,
-                object : BiometricPrompt.AuthenticationCallback() {
-                    override fun onAuthenticationError(errorCode: Int,
-                                                       errString: CharSequence) {
-                        super.onAuthenticationError(errorCode, errString)
-                        Toast.makeText(applicationContext,
-                            "Authentication error: $errString", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    override fun onAuthenticationSucceeded(
-                        result: BiometricPrompt.AuthenticationResult) {
-                        super.onAuthenticationSucceeded(result)
-                        Toast.makeText(applicationContext,
-                            "Authentication succeeded!", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    override fun onAuthenticationFailed() {
-                        super.onAuthenticationFailed()
-                        Toast.makeText(applicationContext, "Authentication failed",
-                            Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                })
-
-        val promptInfo: BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Biometric login for my app")
-            .setSubtitle("Log in using your biometric credential")
-            .setAllowedAuthenticators(DEVICE_CREDENTIAL)
-            .build()
-
-            // Prompt appears when user clicks "Log in".
-            // Consider integrating with the keystore to unlock cryptographic operations,
-            // if needed by your app.
-        biometricPrompt.authenticate(promptInfo).
-        val response = 
-
-        val builder = AlertDialog.Builder(this)
-            builder.setTitle("Alert title")
-            builder.setMessage(response.toString())
-            builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
-            }
-
-            builder.setNegativeButton(R.string.notOkayPrompt) { _, _ ->
-            }
-            builder.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //Hides the system UI such as the status bar and home buttons bar
-        fun hideSystemUI() {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            WindowInsetsControllerCompat(window, findViewById(R.id.menuConstraintLayout)).let { controller ->
-                controller.hide(WindowInsetsCompat.Type.systemBars())
-                controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-            }
-
-
-        }
-        //Runs the function
-        //hideSystemUI()
+//        //Hides the system UI such as the status bar and home buttons bar
+//        fun hideSystemUI() {
+//            WindowCompat.setDecorFitsSystemWindows(window, false)
+//            WindowInsetsControllerCompat(window, findViewById(R.id.menuConstraintLayout)).let { controller ->
+//                controller.hide(WindowInsetsCompat.Type.systemBars())
+//                controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//
+//            }
+//
+//
+//        }
+//        //Runs the function
+//        hideSystemUI()
 
         //Finds the layout and locks the swipe to open feature
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
@@ -223,23 +77,24 @@ class MenuActivity : AppCompatActivity() {
                     builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
                     }
                     builder.show()
+                }
 
-
+                R.id.pinTab -> {
+                    startLockTask()
                 }
 
                 R.id.unlockDeviceTab -> {
                     stopLockTask()
-                    hideSystemUI()
-
                 }
-
-
-
             }
             true
         }
 
     }
+
+
+
+
 
     private fun getIpAddress(context: Context): String {
         val wifiManager = context.applicationContext
@@ -273,8 +128,75 @@ class MenuActivity : AppCompatActivity() {
     private fun openDrawer() {
         //Opens the drawer when run
 
-        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
-        drawerLayout.openDrawer(GravityCompat.START)
+        val biometricManager = BiometricManager.from(this)
+        when (biometricManager.canAuthenticate(DEVICE_CREDENTIAL)) {
+            BiometricManager.BIOMETRIC_SUCCESS ->
+                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
+                Log.e("MY_APP_TAG", "No biometric features available on this device.")
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
+                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                    putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                        DEVICE_CREDENTIAL)
+                }
+                startActivityForResult(enrollIntent, 1)
+            }
+            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+                Log.e("MY_APP_TAG", "Security Update required.")
+            }
+            BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
+                Log.e("MY_APP_TAG", "Passcode feature is unsupported")
+            }
+            BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
+                Log.e("MY_APP_TAG", "Unknown biometrics")
+            }
+        }
+
+        lateinit var biometricPrompt: BiometricPrompt
+        val executor: Executor = ContextCompat.getMainExecutor(this)
+        biometricPrompt = BiometricPrompt(this, executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int,
+                                                   errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(applicationContext,
+                        "Authentication error: $errString", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                override fun onAuthenticationSucceeded(
+                    result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(applicationContext,
+                        "Authentication succeeded!", Toast.LENGTH_SHORT)
+                        .show()
+                        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
+                        drawerLayout.openDrawer(GravityCompat.START)
+
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(applicationContext, "Authentication failed",
+                        Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+
+        val promptInfo: BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Access admin panel")
+            .setSubtitle("Enter your passcode to access admin features")
+            .setAllowedAuthenticators(DEVICE_CREDENTIAL)
+            .setConfirmationRequired(false)
+            .build()
+
+        // Prompt appears when user clicks "Log in".
+        // Consider integrating with the keystore to unlock cryptographic operations,
+        // if needed by your app.
+        biometricPrompt.authenticate(promptInfo)
+
     }
     private fun closeDrawer() {
         //Opens the drawer when run

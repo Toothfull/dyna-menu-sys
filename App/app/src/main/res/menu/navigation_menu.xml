@@ -20,6 +20,10 @@
         android:icon="@drawable/baseline_wifi_protected_setup_24"
         android:title="@string/reconnect"/>
     <item
+        android:id="@+id/pinTab"
+        android:icon="@drawable/baseline_push_pin_24"
+        android:title="@string/pinDevice"/>
+    <item
         android:id="@+id/unlockDeviceTab"
         android:icon="@drawable/baseline_lock_24"
         android:title="@string/unlockDevice"/>
