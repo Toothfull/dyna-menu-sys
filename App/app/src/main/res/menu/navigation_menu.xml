@@ -29,11 +29,6 @@
         android:title="@string/unlockDevice"/>
 
     <item
-        android:id="@+id/turnOffDeviceTab"
-        android:icon="@drawable/baseline_power_settings_new_24"
-        android:title="@string/turnOffDevice"/>
-
-    <item
         android:id="@+id/deviceStatistics"
         android:icon="@drawable/baseline_info_24"
         android:title="@string/deviceStatistics"/>

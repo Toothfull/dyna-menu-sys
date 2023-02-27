@@ -2,9 +2,6 @@ package uk.dynamenusystem.dynamenusystem
 
 import android.content.Context
 import android.content.Intent
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
-import androidx.biometric.BiometricPrompt
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.provider.Settings
@@ -13,11 +10,11 @@ import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import java.net.InetAddress
@@ -58,8 +55,8 @@ class MenuActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Network Stats")
                     builder.setMessage(
-                        getIpAddress(applicationContext) + "\n" + getSignalStrength(applicationContext).toString()
-
+                       "IP address: " + getIpAddress(applicationContext) + "\n" +
+                       "Signal strength (1/100): " + getSignalStrength(applicationContext).toString()
                     )
 
                     builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
@@ -86,15 +83,33 @@ class MenuActivity : AppCompatActivity() {
                 R.id.unlockDeviceTab -> {
                     stopLockTask()
                 }
+
+                R.id.deviceStatistics -> {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Device stats")
+                    builder.setMessage(
+                        "Model: " + android.os.Build.MODEL + "\n" +
+                        "Manufacture: " + android.os.Build.MANUFACTURER + "\n" +
+                        "Product: " + android.os.Build.PRODUCT + "\n" +
+                        "Time: " + android.os.Build.TIME + "\n" +
+                        "Bootloader: " + android.os.Build.BOOTLOADER + "\n" +
+                        "Brand: " + android.os.Build.BRAND + "\n" +
+                        "Device: " + android.os.Build.DEVICE + "\n" +
+                        "Display: " + android.os.Build.DISPLAY + "\n" +
+                        "Host: " + android.os.Build.HOST + "\n" +
+                        "ID: " + android.os.Build.ID + "\n" +
+                        "User: " + android.os.Build.USER + "\n"
+                    )
+                    builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
+                    }
+                    builder.show()
+                }
+
             }
             true
         }
 
     }
-
-
-
-
 
     private fun getIpAddress(context: Context): String {
         val wifiManager = context.applicationContext
