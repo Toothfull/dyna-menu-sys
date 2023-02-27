@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "uk.dynamenusystem.dynamenusystem"
-        minSdk 29
+        minSdk 30
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -44,13 +44,12 @@ dependencies {
     //Material design
     implementation 'com.google.android.material:material:1.8.0'
 
-    //Rounded image view
-    implementation 'com.makeramen:roundedimageview:2.3.0'
-
     //Navigation component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
+    // Biometrics
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
 
 }
