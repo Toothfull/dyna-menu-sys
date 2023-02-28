@@ -34,12 +34,12 @@ app.get('/authorisedoauth', async (request, response) => {
 			'code': authCode,
 			'client_id': clientID,
 			'client_secret': clientSecret,
-			'redirect_uri': '/authorisedoauth',
+			'redirect_uri': `${redirectURI}/authorisedoauth`,
 			'grant_type': 'authorization_code'
 		})
 	
 		//Fetches the details we require from google
-		const googleResponse = await fetch(`https://${redirectURI}/oauth2.googleapis.com/token`, {
+		const googleResponse = await fetch('https://oauth2.googleapis.com/token', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
