@@ -17,7 +17,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import org.java_websocket.client.WebSocketClient
+import org.java_websocket.handshake.ServerHandshake
+import java.lang.Exception
 import java.net.InetAddress
+import java.net.URI
 import java.net.UnknownHostException
 import java.util.concurrent.Executor
 
@@ -103,6 +107,12 @@ class MenuActivity : AppCompatActivity() {
                     builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
                     }
                     builder.show()
+                }
+
+                R.id.amIConnectedTab ->{
+                    // make websocket
+                    initWebSocket()
+                    Log.d("DynaMenuSys","Button Preeeeesed")
                 }
 
             }
@@ -212,6 +222,8 @@ class MenuActivity : AppCompatActivity() {
         // if needed by your app.
         biometricPrompt.authenticate(promptInfo)
 
+
+
     }
     private fun closeDrawer() {
         //Opens the drawer when run
@@ -229,7 +241,58 @@ class MenuActivity : AppCompatActivity() {
         return true
     }
 
+    private lateinit var webSocketClient: WebSocketClient
+
+    override fun onResume() {
+        super.onResume()
+        initWebSocket()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        webSocketClient.close()
+    }
+
+    companion object {
+        const val WEB_SOCKET_URL = "ws://10.0.2.2:9000/websocket"
+    }
+
+    private fun initWebSocket(){
+        Log.d("DynaMenuSys","Before websocket init")
+        val hostURI: URI = URI(WEB_SOCKET_URL)
+        createWebSocketClient(hostURI)
+        Log.d("DynaMenuSys","After websocket init")
+    }
+
+    private fun createWebSocketClient(hostURI: URI){
+        Log.d("DynaMenuSys","Websocket created")
+        webSocketClient = object : WebSocketClient(hostURI){
+
+            override fun onClose(code: Int, reason: String?, remote: Boolean) {
+                Log.d( "DynaMenuSys", "Websocket closed: '${ code }', '${ reason }', '${ remote }'" )
+            }
+
+            override fun onError(ex: Exception?) {
+                Log.d( "DynaMenuSys", "Websocket error: '${ ex?.message }'" )
+            }
+
+            override fun onMessage(message: String?) {
+                Log.d( "DynaMenuSys", "Websocket message received: '${ message }'" )
+            }
+
+            override fun onOpen(handshakedata: ServerHandshake?) {
+                Log.d( "DynaMenuSys", "Websocket opened: '${ handshakedata.toString() }'" )
+                webSocketClient.send( "hello world" )
+            }
+
+        }
+        webSocketClient.connect()
+
+    }
+
 }
+
+
 
 
 //val builder = AlertDialog.Builder(this)

@@ -52,8 +52,13 @@ dependencies {
     // Biometrics
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
-    //Kotlin standard library
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
+
+    // WebSocket
+    implementation "org.java-websocket:Java-WebSocket:1.5.1"
+    // Moshi
+    implementation 'com.squareup.moshi:moshi:1.9.2'
+    //kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.9.2'
 
 
 }

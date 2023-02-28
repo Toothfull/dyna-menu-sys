@@ -21,6 +21,8 @@ configure( {
 } )
 const log = getLogger( 'main' )
 
+const SESSION_DOMAIN = process.env.SESSION_DOMAIN
+
 //Creates express app and sets port
 export const app = express()
 const port = 9000
@@ -44,7 +46,7 @@ app.use( expressSession( {
 	resave: true,
 	saveUninitialized: false,
 	cookie: {
-		domain: 'localhost',
+		domain: SESSION_DOMAIN,
 		path: '/',
 	}
 } ) )

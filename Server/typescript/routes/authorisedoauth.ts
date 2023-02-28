@@ -76,24 +76,29 @@ app.get('/authorisedoauth', async (request, response) => {
 			log.info('new user added')
 		}
 
-		//Regenerates the session and stores the users details in the session
-		request.session.regenerate(async () => {
-			request.session.googleid = id
-			request.session.email = email
-			request.session.name = name
-			request.session.pictureLink = pictureLink
+		//Checks if the user is verified and if so, redirects them to the index page
+		const isVerified = await MongoDB.verifyUser(id)
+		if (isVerified){
+			//Regenerates the session and stores the users details in the session
+			request.session.regenerate(async () => {
+				request.session.googleid = id
+				request.session.email = email
+				request.session.name = name
+				request.session.pictureLink = pictureLink
 
-			//Checks if the user is verified and if so, redirects them to the index page
-			const isVerified = await MongoDB.verifyUser(id)
-			if (isVerified){
+				log.info( 'googleid:' + request.session.googleid )
+				log.info( 'email:' + request.session.email )
+				log.info( 'name:' + request.session.name )
+				log.info( 'pictureLink:' + request.session.pictureLink )
+
 				response.redirect('/index.html')
-			} else { //If the user is not verified, respond with not verified
-				//destroys session and redirects to login page
-				request.session.destroy(() => {
-					response.redirect('/login.html?notverified=true') //Tags the url with notverified=true
-				})
-				
-			}
-		})
+			})
+		} else { //If the user is not verified, respond with not verified
+			//destroys session and redirects to login page
+			request.session.destroy(() => {
+				response.redirect('/login.html?notverified=true') //Tags the url with notverified=true
+			})
+			
+		}
 	}
 })
