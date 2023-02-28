@@ -60,8 +60,11 @@ import './routes/updatemenu'
 import './routes/deletealldocuments'
 import './routes/deletelastdocument'
 
+
+
 //Starts the server and connects to the database
 export const webServer = app.listen(port, async () => {
 	log.info('Example app listening on port ' + port)
 	await MongoDB.initialConnection()
+	await import ('./websockets/mainwebsocket')
 })

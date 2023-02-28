@@ -9,9 +9,10 @@ const log = getLogger( 'authorisedoauth' )
 //Imports clientID and clientSecret from .env file
 const clientID = process.env.CLIENTID
 const clientSecret = process.env.CLIENTSECRET
+const redirectURI = process.env.REDIRECTURI
 
 //Checks if any of the variables are empty
-if(!clientID || !clientSecret){
+if(!clientID || !clientSecret || !redirectURI){
 	throw new Error('Missing environment variables')
 }
 
@@ -33,12 +34,12 @@ app.get('/authorisedoauth', async (request, response) => {
 			'code': authCode,
 			'client_id': clientID,
 			'client_secret': clientSecret,
-			'redirect_uri': 'http://localhost:9000/authorisedoauth',
+			'redirect_uri': '/authorisedoauth',
 			'grant_type': 'authorization_code'
 		})
 	
 		//Fetches the details we require from google
-		const googleResponse = await fetch('https://oauth2.googleapis.com/token', {
+		const googleResponse = await fetch(`https://${redirectURI}/oauth2.googleapis.com/token`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'

@@ -2,8 +2,10 @@ import ws from 'ws'
 import { webServer } from '../main' 
 
 //Websocket
-export const wsServer = new ws.Server({ server: webServer, path: '/websocket' })
-
+export const wsServer = new ws.Server({
+	server: webServer,
+	path: '/websocket'
+})
 
 //Once a client connects...
 wsServer.on('connection', (client) => {
