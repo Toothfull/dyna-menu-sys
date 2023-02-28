@@ -54,6 +54,7 @@ jobs:
           COLLECTIONNAME2: ${{ secrets.COLLECTIONNAME2 }}
           CLIENTID: ${{ secrets.CLIENTID }}
           CLIENTSECRET: ${{ secrets.CLIENTSECRET }}
+          REDIRECTURI: ${{ secrets.REDIRECTURI }}
         run: npm test
 
       - name: Upload Code
