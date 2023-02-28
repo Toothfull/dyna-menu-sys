@@ -14,7 +14,7 @@ RUN mkdir -p /app/Server/uploads
 WORKDIR /app/Server
 
 # Install node packages
-RUN npm install
+RUN npm clean-install --omit=dev
 
 EXPOSE 9000
 
