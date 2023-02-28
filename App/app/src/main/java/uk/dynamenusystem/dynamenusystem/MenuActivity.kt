@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.squareup.moshi.Json
+import org.java_websocket.WebSocket
 import org.java_websocket.client.WebSocketClient
+import org.java_websocket.framing.Framedata
 import org.java_websocket.handshake.ServerHandshake
 import java.lang.Exception
 import java.net.InetAddress
@@ -243,7 +250,7 @@ class MenuActivity : AppCompatActivity() {
 
     private lateinit var webSocketClient: WebSocketClient
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         initWebSocket()
     }
@@ -251,7 +258,7 @@ class MenuActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         webSocketClient.close()
-    }
+    }*/
 
     companion object {
         const val WEB_SOCKET_URL = "ws://10.0.2.2:9000/websocket"
@@ -278,12 +285,37 @@ class MenuActivity : AppCompatActivity() {
 
             override fun onMessage(message: String?) {
                 Log.d( "DynaMenuSys", "Websocket message received: '${ message }'" )
+
+                val jsonFromClient = JsonParser.parseString( message ).asJsonObject
+                val data = jsonFromClient.get( "data" ).asString
+                Log.d( "DynaMenuSys", data )
+
+                findViewById<TextView>( R.id.mainMenuText ).text = data
+
             }
 
             override fun onOpen(handshakedata: ServerHandshake?) {
                 Log.d( "DynaMenuSys", "Websocket opened: '${ handshakedata.toString() }'" )
-                webSocketClient.send( "hello world" )
+
+                val jsonToSend = JsonObject()
+                jsonToSend.addProperty( "data", "Hello from the client!" )
+
+                webSocketClient.send( jsonToSend.toString() )
             }
+
+            override fun onWebsocketPing(connection: WebSocket?, f: Framedata?) {
+                super.onWebsocketPing(connection, f)
+
+                Log.d( "DynaMenuSys", "Received ping, sending one back to the server..." )
+            }
+
+            /*override fun onWebsocketPong(connection: WebSocket?, f: Framedata?) {
+                super.onWebsocketPong( connection, f )
+
+                Log.d( "DynaMenuSys", "Pong from the server!! Responding with ping..." )
+
+                connection?.sendPing()
+            }*/
 
         }
         webSocketClient.connect()
