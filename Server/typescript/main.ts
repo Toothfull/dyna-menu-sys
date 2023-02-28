@@ -61,7 +61,7 @@ import './routes/deletealldocuments'
 import './routes/deletelastdocument'
 
 //Starts the server and connects to the database
-app.listen(port, async () => {
+export const webServer = app.listen(port, async () => {
 	log.info('Example app listening on port ' + port)
 	await MongoDB.initialConnection()
 })
