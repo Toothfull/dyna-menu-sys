@@ -314,6 +314,8 @@ class MenuActivity : AppCompatActivity() {
         val hostURI = URI(WEB_SOCKET_URL)
         createWebSocketClient(hostURI)
         webSocketClient.connect()
+
+
     }
 
     private fun createWebSocketClient(hostURI: URI){
@@ -364,6 +366,21 @@ class MenuActivity : AppCompatActivity() {
 
             override fun onOpen(handshakedata: ServerHandshake?) {
                 Log.d( "DynaMenuSys", "Websocket opened: '${ handshakedata.toString() }'" )
+
+                val dataInJson = JsonObject()
+                dataInJson.addProperty("type", "android")
+
+                val jsonDeviceToSend = JsonObject()
+                jsonDeviceToSend.addProperty("event","device")
+                jsonDeviceToSend.add("data", dataInJson)
+                webSocketClient.send(jsonDeviceToSend.toString())
+
+
+
+                val jsonToSend = JsonObject()
+                jsonToSend.addProperty("event", "canIHaveDocument")
+                jsonToSend.addProperty( "data", "" )
+                webSocketClient.send(jsonToSend.toString())
 
             }
 

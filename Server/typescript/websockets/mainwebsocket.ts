@@ -8,6 +8,9 @@ export const wsServer = new ws.Server({
 	path: '/websocket'
 })
 
+const androidDevices: ws.WebSocket[] = []
+const browserDevices: ws.WebSocket[] = []
+
 //Once a client connects...	
 wsServer.on('connection', (client) => {
 	console.log('New connection!')
@@ -26,27 +29,54 @@ wsServer.on('connection', (client) => {
 			}))
 		}
 
-	})
+		if (messageFromClientEvent ==  'device') {
+			const deviceType = messageFromClientData.type
+			if (deviceType == 'android'){
+				androidDevices.push(client)
+				console.log('Android device connected')
+			}
+			if (deviceType == 'browser'){
+				browserDevices.push(client)
+				console.log('Browser device connected')
+			}
+		}
 
-	/*client.on( 'ping', () => {
-		console.log('Pinging client...')
-	} )*/
+	})
 
 	client.on( 'pong', () => {
 		console.log('Got ping from the client')
 
-		//client.ping()
+
 	} )
 
 	client.on( 'close', ( code, reason ) => {
 		console.log( `Client disconnected: ${code} ${reason}` )
+
+		// remove client from array
+		const index = androidDevices.indexOf(client)
+		if (index > -1) {
+			androidDevices.splice(index, 1)
+		}
+		const index2 = browserDevices.indexOf(client)
+		if (index2 > -1) {
+			browserDevices.splice(index2, 1)
+		}
+
 	} )
 
 	client.on( 'error', ( error ) => {
 		console.log( `Error: ${error}` )
-	} )
 
-	
+		// remove client from array
+		const index = androidDevices.indexOf(client)
+		if (index > -1) {
+			androidDevices.splice(index, 1)
+		}
+		const index2 = browserDevices.indexOf(client)
+		if (index2 > -1) {
+			browserDevices.splice(index2, 1)
+		}
+	} )	
 
 })
 
@@ -55,5 +85,15 @@ setInterval( () => {
 		client.ping()
 		console.log('Pinging client...')
 		console.log( `Number of clients: ${wsServer.clients.size}`)
+	}
+
+	for (const client of browserDevices){
+		client.send(JSON.stringify({
+			event: 'deviceCount',
+			data: {
+				deviceCount: androidDevices.length
+			}
+		}))
+
 	}
 }, 10000 )
