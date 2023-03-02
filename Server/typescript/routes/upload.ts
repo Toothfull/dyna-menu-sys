@@ -10,6 +10,7 @@ const log = getLogger( 'upload' )
 //Imports fs and multer packages
 import fs from 'fs'
 import multer from 'multer'
+import { broadcastMenuUpdate } from '../websockets/mainwebsocket'
 const upload = multer({ //Sets the upload destination and file filter
 	dest: './uploads/',
 	fileFilter : function (req, file, cb) {
@@ -34,6 +35,7 @@ app.put('/upload', upload.single('file'), async (request, response) => {
 		const fileLines = breakApartFile(file.path) //Breaks the file into an array of lines
 		try { //Inserts the file into the database
 			await MongoDB.insertMenuDocument(fileLines, file.originalname)
+			await broadcastMenuUpdate()
 			fs.rmSync(file.path)
 		} catch (error) { //If the file fails to insert into the database
 			log.error(error)

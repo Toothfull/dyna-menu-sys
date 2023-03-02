@@ -6,6 +6,8 @@ import expressSession from 'express-session'
 import { MongoDB } from './classes/mongoclass'
 import { randomString } from './functions/randomstring'
 
+import { initWebsocket } from './websockets/mainwebsocket'
+
 //Imports log4js and configures it
 import { configure, getLogger } from 'log4js'
 configure( {
@@ -68,5 +70,5 @@ import './routes/deletelastdocument'
 export const webServer = app.listen(port, async () => {
 	log.info('Example app listening on port ' + port)
 	await MongoDB.initialConnection()
-	await import ('./websockets/mainwebsocket')
+	initWebsocket()
 })

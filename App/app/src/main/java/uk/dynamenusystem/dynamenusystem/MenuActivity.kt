@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
+import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -336,9 +338,10 @@ class MenuActivity : AppCompatActivity() {
                 Log.d( "DynaMenuSys", "Websocket error: '${ ex?.message }'" )
             }
 
-            @SuppressLint("SetTextI18n")
+            @SuppressLint("SetTextI18n", "CutPasteId")
             override fun onMessage(message: String?) {
                 Log.d( "DynaMenuSys", "Websocket message received: '${ message }'" )
+                val mainMenuText = findViewById<TextView>( R.id.mainMenuText )
 
                 val jsonFromClient = JsonParser.parseString( message ).asJsonObject
                 val event = jsonFromClient.get("event").asString
@@ -347,11 +350,18 @@ class MenuActivity : AppCompatActivity() {
 
                 if (event == "hereIsDocument") {
                     val fileLines = data.get("fileLines").asJsonArray
-                    findViewById<TextView>( R.id.mainMenuText ).text = ""
-                    for (line in fileLines){
-                        findViewById<TextView>( R.id.mainMenuText ).text = String.format( getString( R.string.fileLineAppend ), findViewById<TextView>( R.id.mainMenuText ).text, line.asString )
+                    runOnUiThread {
+                        mainMenuText.visibility = View.INVISIBLE
                     }
-                    findViewById<TextView>( R.id.mainMenuText ).text = findViewById<TextView>( R.id.mainMenuText ).text.toString().trim()
+                    mainMenuText.text = ""
+                    for (line in fileLines){
+                        mainMenuText.text = String.format( getString( R.string.fileLineAppend ), mainMenuText.text, line.asString )
+                    }
+                    mainMenuText.text = mainMenuText.text.toString().trim()
+                    runOnUiThread {
+                        mainMenuText.visibility = View.VISIBLE
+                    }
+
 
                     //findViewById<TextView>( R.id.mainMenuText ).text =
 //                    Toast.makeText(applicationContext,

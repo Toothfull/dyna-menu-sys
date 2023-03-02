@@ -23,16 +23,17 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/drawerExplanation">
+        android:contentDescription="@string/drawerExplanation"
+        android:visibility="gone">
 
         <!-- app:insetForeground="@color/hideStatusBar" annoyingly fixes colour issue with navdraw but does not fix padding -->
         <com.google.android.material.navigation.NavigationView
-            app:insetForeground="@color/hideStatusBar"
             android:id="@+id/navigationView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:menu="@menu/navigation_menu"
             android:layout_gravity="start"
+            app:insetForeground="@color/hideStatusBar"
+            app:menu="@menu/navigation_menu"
             tools:ignore="VisualLintBounds" />
 
 
