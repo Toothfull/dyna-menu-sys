@@ -1,5 +1,6 @@
 package uk.dynamenusystem.dynamenusystem
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
@@ -16,42 +17,47 @@ import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.squareup.moshi.Json
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.java_websocket.WebSocket
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.framing.Framedata
 import org.java_websocket.handshake.ServerHandshake
-import java.lang.Exception
 import java.net.InetAddress
 import java.net.URI
 import java.net.UnknownHostException
 import java.util.concurrent.Executor
+import kotlin.coroutines.EmptyCoroutineContext
 
 
+@Suppress("DEPRECATION")
 class MenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-//        //Hides the system UI such as the status bar and home buttons bar
-//        fun hideSystemUI() {
-//            WindowCompat.setDecorFitsSystemWindows(window, false)
-//            WindowInsetsControllerCompat(window, findViewById(R.id.menuConstraintLayout)).let { controller ->
-//                controller.hide(WindowInsetsCompat.Type.systemBars())
-//                controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-//
-//            }
-//
-//
-//        }
-//        //Runs the function
-//        hideSystemUI()
+        //Hides the system UI such as the status bar and home buttons bar
+        fun hideSystemUI() {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            WindowInsetsControllerCompat(window, findViewById(R.id.menuConstraintLayout)).let { controller ->
+                controller.hide(WindowInsetsCompat.Type.systemBars())
+                controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
+            }
+
+
+        }
+        //Runs the function
+        hideSystemUI()
 
         //Finds the layout and locks the swipe to open feature
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
@@ -79,12 +85,24 @@ class MenuActivity : AppCompatActivity() {
 
                 R.id.downloadLatestTab -> {
 
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Alert title")
-                    builder.setMessage("Download latest pressed")
-                    builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
+                    if (webSocketClient.isOpen){
+
+                        val jsonToSend = JsonObject()
+                        jsonToSend.addProperty("event", "canIHaveDocument")
+                        jsonToSend.addProperty( "data", "" )
+
+                        webSocketClient.send(jsonToSend.toString())
+
+
+                    } else{
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Unable to download")
+                        builder.setMessage("Device is not connected to the server. Could not download document")
+                        builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
+                        }
+                        builder.show()
                     }
-                    builder.show()
+
                 }
 
                 R.id.pinTab -> {
@@ -117,14 +135,38 @@ class MenuActivity : AppCompatActivity() {
                 }
 
                 R.id.amIConnectedTab ->{
-                    // make websocket
+                    if (webSocketClient.isOpen){
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Websocket Status")
+                        builder.setMessage("You are connected to the server")
+                        builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
+                        }
+                        builder.show()
+                    }
+                    else {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Websocket Status")
+                        builder.setMessage("Device is not connected to the server")
+                        builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
+                        }
+                        builder.show()
+                    }
+
+                }
+
+                R.id.reconnectTab -> {
+                    webSocketClient.close()
                     initWebSocket()
-                    Log.d("DynaMenuSys","Button Preeeeesed")
+                    Toast.makeText(applicationContext,
+                        "Reconnecting to server", Toast.LENGTH_SHORT).show()
                 }
 
             }
             true
         }
+
+
+        //initWebSocket()
 
     }
 
@@ -250,25 +292,28 @@ class MenuActivity : AppCompatActivity() {
 
     private lateinit var webSocketClient: WebSocketClient
 
-    /*override fun onResume() {
+    override fun onResume() {
         super.onResume()
+        //webSocketClient.connect()
         initWebSocket()
+        Log.d("DynaMenuSys", "App resuming")
     }
 
     override fun onPause() {
         super.onPause()
         webSocketClient.close()
-    }*/
+        Log.d("DynaMenuSys", "App closed")
+    }
 
     companion object {
-        const val WEB_SOCKET_URL = "ws://10.0.2.2:9000/websocket"
+        const val WEB_SOCKET_URL = "ws://10.0.2.2:9000/websocket" //"ws://dynamenusystem.uk/websocket"
     }
 
     private fun initWebSocket(){
         Log.d("DynaMenuSys","Before websocket init")
-        val hostURI: URI = URI(WEB_SOCKET_URL)
+        val hostURI = URI(WEB_SOCKET_URL)
         createWebSocketClient(hostURI)
-        Log.d("DynaMenuSys","After websocket init")
+        webSocketClient.connect()
     }
 
     private fun createWebSocketClient(hostURI: URI){
@@ -277,36 +322,54 @@ class MenuActivity : AppCompatActivity() {
 
             override fun onClose(code: Int, reason: String?, remote: Boolean) {
                 Log.d( "DynaMenuSys", "Websocket closed: '${ code }', '${ reason }', '${ remote }'" )
+                if (code != 1000){
+                    CoroutineScope( EmptyCoroutineContext ).launch {
+                        delay(2000L)
+                        initWebSocket()
+                    }
+                }
             }
 
             override fun onError(ex: Exception?) {
                 Log.d( "DynaMenuSys", "Websocket error: '${ ex?.message }'" )
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onMessage(message: String?) {
                 Log.d( "DynaMenuSys", "Websocket message received: '${ message }'" )
 
                 val jsonFromClient = JsonParser.parseString( message ).asJsonObject
-                val data = jsonFromClient.get( "data" ).asString
-                Log.d( "DynaMenuSys", data )
+                val event = jsonFromClient.get("event").asString
+                val data = jsonFromClient.get( "data" ).asJsonObject
+                Log.d( "DynaMenuSys", event )
 
-                findViewById<TextView>( R.id.mainMenuText ).text = data
+                if (event == "hereIsDocument") {
+                    val fileLines = data.get("fileLines").asJsonArray
+                    findViewById<TextView>( R.id.mainMenuText ).text = ""
+                    for (line in fileLines){
+                        findViewById<TextView>( R.id.mainMenuText ).text = String.format( getString( R.string.fileLineAppend ), findViewById<TextView>( R.id.mainMenuText ).text, line.asString.trim() )
+                    }
+
+                    //findViewById<TextView>( R.id.mainMenuText ).text =
+//                    Toast.makeText(applicationContext,
+//                        "Latest document downloaded", Toast.LENGTH_SHORT).show()
+                    //findViewById<TextView>( R.id.mainMenuText ).text = data.get("fileLines").asJsonArray
+                } else {
+//                    Toast.makeText(applicationContext,
+//                        "No document was given", Toast.LENGTH_SHORT).show()
+                }
 
             }
 
             override fun onOpen(handshakedata: ServerHandshake?) {
                 Log.d( "DynaMenuSys", "Websocket opened: '${ handshakedata.toString() }'" )
 
-                val jsonToSend = JsonObject()
-                jsonToSend.addProperty( "data", "Hello from the client!" )
-
-                webSocketClient.send( jsonToSend.toString() )
             }
 
             override fun onWebsocketPing(connection: WebSocket?, f: Framedata?) {
                 super.onWebsocketPing(connection, f)
-
                 Log.d( "DynaMenuSys", "Received ping, sending one back to the server..." )
+
             }
 
             /*override fun onWebsocketPong(connection: WebSocket?, f: Framedata?) {
@@ -318,7 +381,7 @@ class MenuActivity : AppCompatActivity() {
             }*/
 
         }
-        webSocketClient.connect()
+
 
     }
 

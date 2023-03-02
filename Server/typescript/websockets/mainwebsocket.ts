@@ -1,5 +1,6 @@
 import ws from 'ws'
 import { webServer } from '../main' 
+import { MongoDB } from '../classes/mongoclass'
 
 //Websocket
 export const wsServer = new ws.Server({
@@ -11,17 +12,20 @@ export const wsServer = new ws.Server({
 wsServer.on('connection', (client) => {
 	console.log('New connection!')
 
-	client.send( JSON.stringify( {
-		data: 'Hello from the server!!'
-	} ) )
-
 	//Once the server recieves a message from a client...
 	client.on('message', async  (message) => {
-		console.log( JSON.parse( message.toString() ) )
+		const messageFromClient =  JSON.parse(message.toString())
+		const messageFromClientEvent = messageFromClient.event
+		const messageFromClientData = messageFromClient.data
 
-		client.send( JSON.stringify( {
-			data: 'Thank you for the message!!!'
-		} ) )
+		if (messageFromClientEvent === 'canIHaveDocument'){
+			const latestdocument = await MongoDB.getMenuDocument()
+			client.send(JSON.stringify({
+				event: 'hereIsDocument',
+				data: latestdocument
+			}))
+		}
+
 	})
 
 	/*client.on( 'ping', () => {
@@ -42,9 +46,14 @@ wsServer.on('connection', (client) => {
 		console.log( `Error: ${error}` )
 	} )
 
-	setInterval( () => {
-		console.log( 'Sending ping to client...' )
-		client.ping()
-	}, 10000 )
+	
 
 })
+
+setInterval( () => {
+	for (const client of wsServer.clients){
+		client.ping()
+		console.log('Pinging client...')
+		console.log( `Number of clients: ${wsServer.clients.size}`)
+	}
+}, 10000 )
