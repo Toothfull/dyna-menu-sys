@@ -347,8 +347,9 @@ class MenuActivity : AppCompatActivity() {
                     val fileLines = data.get("fileLines").asJsonArray
                     findViewById<TextView>( R.id.mainMenuText ).text = ""
                     for (line in fileLines){
-                        findViewById<TextView>( R.id.mainMenuText ).text = String.format( getString( R.string.fileLineAppend ), findViewById<TextView>( R.id.mainMenuText ).text, line.asString.trim() )
+                        findViewById<TextView>( R.id.mainMenuText ).text = String.format( getString( R.string.fileLineAppend ), findViewById<TextView>( R.id.mainMenuText ).text, line.asString )
                     }
+                    findViewById<TextView>( R.id.mainMenuText ).text = findViewById<TextView>( R.id.mainMenuText ).text.toString().trim()
 
                     //findViewById<TextView>( R.id.mainMenuText ).text =
 //                    Toast.makeText(applicationContext,
