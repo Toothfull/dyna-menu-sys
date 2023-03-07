@@ -5,13 +5,20 @@
     android:id="@+id/menuConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D4B37F"
     tools:context=".MenuActivity">
 
     <TextView
         android:id="@+id/mainMenuText"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="sans-serif"
+        android:foregroundTint="#D52929"
         android:text="@string/default_text"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/drawerExplanation"
-        android:visibility="gone">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <!-- app:insetForeground="@color/hideStatusBar" annoyingly fixes colour issue with navdraw but does not fix padding -->
         <com.google.android.material.navigation.NavigationView

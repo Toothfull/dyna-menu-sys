@@ -10,7 +10,8 @@ function markdownToHTML(markdownString) {
 		let markdownLine = markdownLines[lineNumber];
 
 		if ( markdownLine.length <= 0 ) {
-			htmlLines.push( '<p></p>' );
+			//htmlLines.push( '<p></p>' );
+			htmlLines.push( '<br>' );
 			continue;
 		};
 
@@ -140,6 +141,8 @@ function HTMLToMarkdown() {
 	for (let lineNumber = 0; lineNumber < htmlLinesCount; lineNumber++) {
 		let htmlLine = htmlLines[lineNumber];
 
+		htmlLine = htmlLine.replaceAll( /&amp;/g, "&" );
+
 		//Checks for unordered list
 		if (htmlLine.match(/<ul>/) != null) {
 			markdownLines.push( '' );
@@ -160,6 +163,12 @@ function HTMLToMarkdown() {
 		if (htmlLine.match(/<\/ol>/) != null) {
 			markdownLines.push( '' );
 			whatTypeOfListAreWeCurrentlyOn = null
+			continue;
+		}
+
+		//Checks for line breaks
+		if (htmlLine.match(/^<br>$/) != null) {
+			markdownLines.push( '' );
 			continue;
 		}
 
@@ -215,23 +224,17 @@ function HTMLToMarkdown() {
 				//markdownLines.push( '' );
 			}
 		}
-
-		//Checks for line breaks
-		let lbreak = htmlLine.match( /<br>/g )
-		if (lbreak!=null){
-			markdownLines.push( '' );
-		}
 	}
 
 	// remove any duplicate empty lines but keep at least one
-	let previousLine = '';
+	/*let previousLine = '';
 	markdownLines = markdownLines.filter( (line) => {
 		if (line.length>0||previousLine.length>0) {
 			previousLine = line;
 			return true;
 		}
 		return false;
-	});
+	});*/
 
 	return markdownLines.join('\n');
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
-import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -207,11 +206,11 @@ class MenuActivity : AppCompatActivity() {
         val biometricManager = BiometricManager.from(this)
         when (biometricManager.canAuthenticate(DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS ->
-                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
+                Log.d("DynaMenuSys", "App can authenticate using biometrics.")
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-                Log.e("MY_APP_TAG", "No biometric features available on this device.")
+                Log.e("DynaMenuSys", "No biometric features available on this device.")
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
+                Log.e("DynaMenuSys", "Biometric features are currently unavailable.")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
                     putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
@@ -220,13 +219,13 @@ class MenuActivity : AppCompatActivity() {
                 startActivityForResult(enrollIntent, 1)
             }
             BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
-                Log.e("MY_APP_TAG", "Security Update required.")
+                Log.e("DynaMenuSys", "Security Update required.")
             }
             BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
-                Log.e("MY_APP_TAG", "Passcode feature is unsupported")
+                Log.e("DynaMenuSys", "Passcode feature is unsupported")
             }
             BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
-                Log.e("MY_APP_TAG", "Unknown biometrics")
+                Log.e("DynaMenuSys", "Unknown biometrics")
             }
         }
 
@@ -238,16 +237,14 @@ class MenuActivity : AppCompatActivity() {
                                                    errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
                     Toast.makeText(applicationContext,
-                        "Authentication error: $errString", Toast.LENGTH_SHORT)
-                        .show()
+                        "Authentication error: $errString", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onAuthenticationSucceeded(
                     result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
                     Toast.makeText(applicationContext,
-                        "Authentication succeeded!", Toast.LENGTH_SHORT)
-                        .show()
+                        "Authentication succeeded!", Toast.LENGTH_SHORT).show()
                         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
                         drawerLayout.openDrawer(GravityCompat.START)
 
@@ -256,8 +253,7 @@ class MenuActivity : AppCompatActivity() {
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
                     Toast.makeText(applicationContext, "Authentication failed",
-                        Toast.LENGTH_SHORT)
-                        .show()
+                        Toast.LENGTH_SHORT).show()
                 }
             })
 
@@ -308,7 +304,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val WEB_SOCKET_URL = "ws://10.0.2.2:9000/websocket" //"ws://dynamenusystem.uk/websocket"
+        const val WEB_SOCKET_URL = "ws://10.0.2.2:9000/websocket" //"ws://192.168.1.1:9000/websocket" //"ws://dynamenusystem.uk/websocket"
     }
 
     private fun initWebSocket(){
