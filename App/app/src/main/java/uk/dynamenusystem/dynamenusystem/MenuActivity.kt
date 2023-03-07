@@ -304,7 +304,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val WEB_SOCKET_URL = "ws://10.0.2.2:9000/websocket" //"ws://192.168.1.1:9000/websocket" //"ws://dynamenusystem.uk/websocket"
+        const val WEB_SOCKET_URL = "ws://192.168.1.1:9000/websocket" //"ws://10.0.2.2:9000/websocket"  "ws://dynamenusystem.uk/websocket"
     }
 
     private fun initWebSocket(){
