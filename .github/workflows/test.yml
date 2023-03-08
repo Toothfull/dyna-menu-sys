@@ -23,7 +23,7 @@ jobs:
         with:
           root: ./Browser
           css: true
-          blacklist: ./assets
+          blacklist: assets
       - name: Upload log
         uses: actions/upload-artifact@v3
         with:
