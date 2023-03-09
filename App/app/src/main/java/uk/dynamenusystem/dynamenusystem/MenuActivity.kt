@@ -3,9 +3,12 @@ package uk.dynamenusystem.dynamenusystem
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.provider.Settings
+import android.text.*
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -17,6 +20,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import androidx.core.text.toSpannable
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -36,6 +40,7 @@ import java.net.InetAddress
 import java.net.URI
 import java.net.UnknownHostException
 import java.util.concurrent.Executor
+import java.util.regex.Pattern
 import kotlin.coroutines.EmptyCoroutineContext
 
 
@@ -49,9 +54,13 @@ class MenuActivity : AppCompatActivity() {
         //Hides the system UI such as the status bar and home buttons bar
         fun hideSystemUI() {
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            WindowInsetsControllerCompat(window, findViewById(R.id.menuConstraintLayout)).let { controller ->
+            WindowInsetsControllerCompat(
+                window,
+                findViewById(R.id.menuConstraintLayout)
+            ).let { controller ->
                 controller.hide(WindowInsetsCompat.Type.systemBars())
-                controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
             }
 
@@ -73,8 +82,8 @@ class MenuActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Network Stats")
                     builder.setMessage(
-                       "IP address: " + getIpAddress(applicationContext) + "\n" +
-                       "Signal strength (1/100): " + getSignalStrength(applicationContext).toString()
+                        "IP address: " + getIpAddress(applicationContext) + "\n" +
+                                "Signal strength (1/100): " + getSignalStrength(applicationContext).toString()
                     )
 
                     builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
@@ -86,16 +95,16 @@ class MenuActivity : AppCompatActivity() {
 
                 R.id.downloadLatestTab -> {
 
-                    if (webSocketClient.isOpen){
+                    if (webSocketClient.isOpen) {
 
                         val jsonToSend = JsonObject()
                         jsonToSend.addProperty("event", "canIHaveDocument")
-                        jsonToSend.addProperty( "data", "" )
+                        jsonToSend.addProperty("data", "")
 
                         webSocketClient.send(jsonToSend.toString())
 
 
-                    } else{
+                    } else {
                         val builder = AlertDialog.Builder(this)
                         builder.setTitle("Unable to download")
                         builder.setMessage("Device is not connected to the server. Could not download document")
@@ -119,32 +128,31 @@ class MenuActivity : AppCompatActivity() {
                     builder.setTitle("Device stats")
                     builder.setMessage(
                         "Model: " + android.os.Build.MODEL + "\n" +
-                        "Manufacture: " + android.os.Build.MANUFACTURER + "\n" +
-                        "Product: " + android.os.Build.PRODUCT + "\n" +
-                        "Time: " + android.os.Build.TIME + "\n" +
-                        "Bootloader: " + android.os.Build.BOOTLOADER + "\n" +
-                        "Brand: " + android.os.Build.BRAND + "\n" +
-                        "Device: " + android.os.Build.DEVICE + "\n" +
-                        "Display: " + android.os.Build.DISPLAY + "\n" +
-                        "Host: " + android.os.Build.HOST + "\n" +
-                        "ID: " + android.os.Build.ID + "\n" +
-                        "User: " + android.os.Build.USER + "\n"
+                                "Manufacture: " + android.os.Build.MANUFACTURER + "\n" +
+                                "Product: " + android.os.Build.PRODUCT + "\n" +
+                                "Time: " + android.os.Build.TIME + "\n" +
+                                "Bootloader: " + android.os.Build.BOOTLOADER + "\n" +
+                                "Brand: " + android.os.Build.BRAND + "\n" +
+                                "Device: " + android.os.Build.DEVICE + "\n" +
+                                "Display: " + android.os.Build.DISPLAY + "\n" +
+                                "Host: " + android.os.Build.HOST + "\n" +
+                                "ID: " + android.os.Build.ID + "\n" +
+                                "User: " + android.os.Build.USER + "\n"
                     )
                     builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
                     }
                     builder.show()
                 }
 
-                R.id.amIConnectedTab ->{
-                    if (webSocketClient.isOpen){
+                R.id.amIConnectedTab -> {
+                    if (webSocketClient.isOpen) {
                         val builder = AlertDialog.Builder(this)
                         builder.setTitle("Websocket Status")
                         builder.setMessage("You are connected to the server")
                         builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
                         }
                         builder.show()
-                    }
-                    else {
+                    } else {
                         val builder = AlertDialog.Builder(this)
                         builder.setTitle("Websocket Status")
                         builder.setMessage("Device is not connected to the server")
@@ -158,8 +166,10 @@ class MenuActivity : AppCompatActivity() {
                 R.id.reconnectTab -> {
                     webSocketClient.close()
                     initWebSocket()
-                    Toast.makeText(applicationContext,
-                        "Reconnecting to server", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Reconnecting to server", Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             }
@@ -213,8 +223,10 @@ class MenuActivity : AppCompatActivity() {
                 Log.e("DynaMenuSys", "Biometric features are currently unavailable.")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                    putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                        DEVICE_CREDENTIAL)
+                    putExtra(
+                        Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                        DEVICE_CREDENTIAL
+                    )
                 }
                 startActivityForResult(enrollIntent, 1)
             }
@@ -233,27 +245,36 @@ class MenuActivity : AppCompatActivity() {
         val executor: Executor = ContextCompat.getMainExecutor(this)
         biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationError(errorCode: Int,
-                                                   errString: CharSequence) {
+                override fun onAuthenticationError(
+                    errorCode: Int,
+                    errString: CharSequence
+                ) {
                     super.onAuthenticationError(errorCode, errString)
-                    Toast.makeText(applicationContext,
-                        "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Authentication error: $errString", Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult) {
+                    result: BiometricPrompt.AuthenticationResult
+                ) {
                     super.onAuthenticationSucceeded(result)
-                    Toast.makeText(applicationContext,
-                        "Authentication succeeded!", Toast.LENGTH_SHORT).show()
-                        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
-                        drawerLayout.openDrawer(GravityCompat.START)
+                    Toast.makeText(
+                        applicationContext,
+                        "Authentication succeeded!", Toast.LENGTH_SHORT
+                    ).show()
+                    val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
+                    drawerLayout.openDrawer(GravityCompat.START)
 
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(applicationContext, "Authentication failed",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext, "Authentication failed",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
 
@@ -270,8 +291,8 @@ class MenuActivity : AppCompatActivity() {
         biometricPrompt.authenticate(promptInfo)
 
 
-
     }
+
     private fun closeDrawer() {
         //Opens the drawer when run
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
@@ -280,7 +301,7 @@ class MenuActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         //Waits for the onKeyDown event to take place
-        when(keyCode) {
+        when (keyCode) {
             //Runs function if key down is either volume buttons
             KeyEvent.KEYCODE_VOLUME_UP -> openDrawer()
             KeyEvent.KEYCODE_VOLUME_DOWN -> closeDrawer()
@@ -304,11 +325,12 @@ class MenuActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val WEB_SOCKET_URL = "ws://192.168.1.1:9000/websocket" //"ws://10.0.2.2:9000/websocket"  "ws://dynamenusystem.uk/websocket"
+        const val WEB_SOCKET_URL =
+            "ws://192.168.1.1:9000/websocket" //"ws://10.0.2.2:9000/websocket"  "ws://dynamenusystem.uk/websocket"
     }
 
-    private fun initWebSocket(){
-        Log.d("DynaMenuSys","Before websocket init")
+    private fun initWebSocket() {
+        Log.d("DynaMenuSys", "Before websocket init")
         val hostURI = URI(WEB_SOCKET_URL)
         createWebSocketClient(hostURI)
         webSocketClient.connect()
@@ -316,14 +338,14 @@ class MenuActivity : AppCompatActivity() {
 
     }
 
-    private fun createWebSocketClient(hostURI: URI){
-        Log.d("DynaMenuSys","Websocket created")
-        webSocketClient = object : WebSocketClient(hostURI){
+    private fun createWebSocketClient(hostURI: URI) {
+        Log.d("DynaMenuSys", "Websocket created")
+        webSocketClient = object : WebSocketClient(hostURI) {
 
             override fun onClose(code: Int, reason: String?, remote: Boolean) {
-                Log.d( "DynaMenuSys", "Websocket closed: '${ code }', '${ reason }', '${ remote }'" )
-                if (code != 1000){
-                    CoroutineScope( EmptyCoroutineContext ).launch {
+                Log.d("DynaMenuSys", "Websocket closed: '${code}', '${reason}', '${remote}'")
+                if (code != 1000) {
+                    CoroutineScope(EmptyCoroutineContext).launch {
                         delay(2000L)
                         initWebSocket()
                     }
@@ -331,18 +353,18 @@ class MenuActivity : AppCompatActivity() {
             }
 
             override fun onError(ex: Exception?) {
-                Log.d( "DynaMenuSys", "Websocket error: '${ ex?.message }'" )
+                Log.d("DynaMenuSys", "Websocket error: '${ex?.message}'")
             }
 
             @SuppressLint("SetTextI18n", "CutPasteId")
             override fun onMessage(message: String?) {
-                Log.d( "DynaMenuSys", "Websocket message received: '${ message }'" )
-                val mainMenuText = findViewById<TextView>( R.id.mainMenuText )
+                Log.d("DynaMenuSys", "Websocket message received: '${message}'")
+                val mainMenuText = findViewById<TextView>(R.id.mainMenuText)
 
-                val jsonFromClient = JsonParser.parseString( message ).asJsonObject
+                val jsonFromClient = JsonParser.parseString(message).asJsonObject
                 val event = jsonFromClient.get("event").asString
-                val data = jsonFromClient.get( "data" ).asJsonObject
-                Log.d( "DynaMenuSys", event )
+                val data = jsonFromClient.get("data").asJsonObject
+                Log.d("DynaMenuSys", event)
 
                 if (event == "hereIsDocument") {
                     val fileLines = data.get("fileLines").asJsonArray
@@ -351,9 +373,10 @@ class MenuActivity : AppCompatActivity() {
                     }
                     mainMenuText.text = ""
                     for (line in fileLines){
-                        mainMenuText.text = String.format( getString( R.string.fileLineAppend ), mainMenuText.text, line.asString )
+                        val html = convertMarkdownToHTML(line.asString)
+                        mainMenuText.text = String.format(getString( R.string.fileLineAppend ), mainMenuText.text, html)
                     }
-                    mainMenuText.text = mainMenuText.text.toString().trim()
+                    mainMenuText.text = Html.fromHtml(mainMenuText.text.toString().trim())
                     runOnUiThread {
                         mainMenuText.visibility = View.VISIBLE
                     }
@@ -371,28 +394,27 @@ class MenuActivity : AppCompatActivity() {
             }
 
             override fun onOpen(handshakedata: ServerHandshake?) {
-                Log.d( "DynaMenuSys", "Websocket opened: '${ handshakedata.toString() }'" )
+                Log.d("DynaMenuSys", "Websocket opened: '${handshakedata.toString()}'")
 
                 val dataInJson = JsonObject()
                 dataInJson.addProperty("type", "android")
 
                 val jsonDeviceToSend = JsonObject()
-                jsonDeviceToSend.addProperty("event","device")
+                jsonDeviceToSend.addProperty("event", "device")
                 jsonDeviceToSend.add("data", dataInJson)
                 webSocketClient.send(jsonDeviceToSend.toString())
 
 
-
                 val jsonToSend = JsonObject()
                 jsonToSend.addProperty("event", "canIHaveDocument")
-                jsonToSend.addProperty( "data", "" )
+                jsonToSend.addProperty("data", "")
                 webSocketClient.send(jsonToSend.toString())
 
             }
 
             override fun onWebsocketPing(connection: WebSocket?, f: Framedata?) {
                 super.onWebsocketPing(connection, f)
-                Log.d( "DynaMenuSys", "Received ping, sending one back to the server..." )
+                Log.d("DynaMenuSys", "Received ping, sending one back to the server...")
 
             }
 
@@ -409,7 +431,63 @@ class MenuActivity : AppCompatActivity() {
 
     }
 
+    fun convertMarkdownToHTML(markdownText: String): String {
+        var htmlText = markdownText
+        htmlText = htmlText.replace("[*]{2}([^*]+)[*]{2}".toRegex(), "<strong>$1</strong>")
+        htmlText = htmlText.replace("[*]([^*]+)[*]".toRegex(), "<em>$1</em>")
+        htmlText = htmlText.replace("~{2}([^~]+)~{2}".toRegex(), "<strike>$1</strike>")
+        htmlText = htmlText.replace("_{2}([^*]+)_{2}".toRegex(), "<u>$1</u>")
+        return htmlText
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

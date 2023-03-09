@@ -17,6 +17,6 @@
 
     <string name="networkDetailsTabText">networkDetailsTab</string>
 
-    <string name="fileLineAppend">%s\n%s</string>
+    <string name="fileLineAppend">%s&lt;br&gt;%s</string>
 
 </resources>

@@ -29,76 +29,85 @@ app.get('/authorisedoauth', async (request, response) => {
 		response.send('Error')
 	} else { //If all variables are not empty
 
-		//Creates a new URLSearchParams object
-		const googleData = new URLSearchParams({
-			'code': authCode,
-			'client_id': clientID,
-			'client_secret': clientSecret,
-			'redirect_uri': `${redirectURI}/authorisedoauth`,
-			'grant_type': 'authorization_code'
-		})
-	
-		//Fetches the details we require from google
-		const googleResponse = await fetch('https://oauth2.googleapis.com/token', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			body: googleData.toString()
-		})
 
-		//Store googles response as a json object
-		const googleResponseData = await googleResponse.json()
-
-		//grabs the access token from the response data
-		const accessToken = googleResponseData.access_token
-
-		//Fetches the users details from google using their access token
-		const googleUserDetails = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`, {
-			method: 'GET'
-		} )
-
-		//Stores the users details as a json object
-		const googleUserDetailsData = await googleUserDetails.json()
-
-		//Stores the users details as variables
-		const email : string = googleUserDetailsData.email.toString()
-		const id : string = googleUserDetailsData.id.toString()
-		const name : string = googleUserDetailsData.name.toString()
-		const pictureLink : string = googleUserDetailsData.picture.toString()
-
-		//Checks if the user is already in the database and if not, adds them
-		const newUser = await MongoDB.addUser(email, id, name, pictureLink)
-		if (!newUser){
-			log.info('failed to insert new user (user already exists)')
-		} else { //If the user is not in the database
-			log.info(newUser)
-			log.info('new user added')
-		}
-
-		//Checks if the user is verified and if so, redirects them to the index page
-		const isVerified = await MongoDB.verifyUser(id)
-		if (isVerified){
-			//Regenerates the session and stores the users details in the session
-			request.session.regenerate(async () => {
-				request.session.googleid = id
-				request.session.email = email
-				request.session.name = name
-				request.session.pictureLink = pictureLink
-
-				log.info( 'googleid:' + request.session.googleid )
-				log.info( 'email:' + request.session.email )
-				log.info( 'name:' + request.session.name )
-				log.info( 'pictureLink:' + request.session.pictureLink )
-
-				response.redirect('/index.html')
+		try {
+			//Creates a new URLSearchParams object
+			const googleData = new URLSearchParams({
+				'code': authCode,
+				'client_id': clientID,
+				'client_secret': clientSecret,
+				'redirect_uri': `${redirectURI}/authorisedoauth`,
+				'grant_type': 'authorization_code'
 			})
-		} else { //If the user is not verified, respond with not verified
-			//destroys session and redirects to login page
+		
+			//Fetches the details we require from google
+			const googleResponse = await fetch('https://oauth2.googleapis.com/token', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: googleData.toString()
+			})
+
+			//Store googles response as a json object
+			const googleResponseData = await googleResponse.json()
+
+			//grabs the access token from the response data
+			const accessToken = googleResponseData.access_token
+
+			//Fetches the users details from google using their access token
+			const googleUserDetails = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`, {
+				method: 'GET'
+			} )
+
+			//Stores the users details as a json object
+			const googleUserDetailsData = await googleUserDetails.json()
+
+			//Stores the users details as variables
+			const email : string = googleUserDetailsData.email.toString()
+			const id : string = googleUserDetailsData.id.toString()
+			const name : string = googleUserDetailsData.name.toString()
+			const pictureLink : string = googleUserDetailsData.picture.toString()
+
+			//Checks if the user is already in the database and if not, adds them
+			const newUser = await MongoDB.addUser(email, id, name, pictureLink)
+			if (!newUser){
+				log.info('failed to insert new user (user already exists)')
+			} else { //If the user is not in the database
+				log.info(newUser)
+				log.info('new user added')
+			}
+		
+
+			//Checks if the user is verified and if so, redirects them to the index page
+			const isVerified = await MongoDB.verifyUser(id)
+			if (isVerified){
+				//Regenerates the session and stores the users details in the session
+				request.session.regenerate(async () => {
+					request.session.googleid = id
+					request.session.email = email
+					request.session.name = name
+					request.session.pictureLink = pictureLink
+
+					log.info( 'googleid:' + request.session.googleid )
+					log.info( 'email:' + request.session.email )
+					log.info( 'name:' + request.session.name )
+					log.info( 'pictureLink:' + request.session.pictureLink )
+
+					response.redirect('/index.html')
+				})
+			} else { //If the user is not verified, respond with not verified
+				//destroys session and redirects to login page
+				request.session.destroy(() => {
+					response.redirect('/login.html?notverified=true') //Tags the url with notverified=true
+				})
+				
+			}
+		} catch (error) {
+			log.error(error)
 			request.session.destroy(() => {
-				response.redirect('/login.html?notverified=true') //Tags the url with notverified=true
+				response.send(`Error when contacting google (${error})`)
 			})
-			
 		}
 	}
 })
