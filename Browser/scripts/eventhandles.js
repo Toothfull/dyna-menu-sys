@@ -194,7 +194,7 @@ $('#insertUnorderedList').click(function() {
 	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		// Gets the position from the start of the text to the cursor and adds the a dummy to the end of it on the cursor position then re adds all the content back
-		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '\n* Item 1 \n* Item 2 \n* Item 3 \n' + $('#menuPre').val().substring(cursorPosition) );
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '\n* Item 1\n* Item 2\n* Item 3\n' + $('#menuPre').val().substring(cursorPosition) );
 	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
@@ -227,7 +227,7 @@ $('#insertOrderedList').click(function() {
 	if ($( "#menuPre" )[ 0 ].selectionStart == $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		// Gets the position from the start of the text to the cursor and adds the a dummy to the end of it on the cursor position then re adds all the content back
-		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '\n1. Item 1 \n1. Item 2 \n1. Item 3 \n' + $('#menuPre').val().substring(cursorPosition) );
+		$('#menuPre').val( $('#menuPre').val().substring(0, cursorPosition) + '\n1. Item 1\n1. Item 2\n1. Item 3\n' + $('#menuPre').val().substring(cursorPosition) );
 	} else if ($( "#menuPre" )[ 0 ].selectionStart != $( "#menuPre" )[ 0 ].selectionEnd) {
 		const cursorPosition = $( "#menuPre" )[ 0 ].selectionStart;
 		const cursorEndPosition = $( "#menuPre" )[ 0 ].selectionEnd;
@@ -357,8 +357,16 @@ $('#clickWhite').click(function() {
 	colourMarkdownInsert('#FFFFFF')
 })
 
+
+//detects where the mouse is on the page
+var currentMousePos = { x: -1, y: -1 };
+$(document).mousemove(function(event) {
+	currentMousePos.x = event.pageX;
+	currentMousePos.y = event.pageY;
+});
+
 // detect if context menu is opened
-$('#Canvas').contextmenu(function() {
+$(document).contextmenu(function() {
 	$('#contextMenu').css('top', currentMousePos.y + 'px');
 	$('#contextMenu').css('left', currentMousePos.x + 'px');
 	$('#contextMenu').show()
