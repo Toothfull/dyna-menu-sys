@@ -48,7 +48,7 @@ jobs:
           KEY_STORE_KEY_PASSWORD: ${{ secrets.KEY_STORE_KEY_PASSWORD }}
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: assemble${{ matrix.variant }}
+          arguments: assemble${{ matrix.type }}
           build-root-directory: ./App/
 
       - name: Run tests
@@ -65,7 +65,7 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ARTIFACT_NAME }}-${{ matrix.variant }}
+          name: ${{ env.ARTIFACT_NAME }}-${{ matrix.type }}
           path: |
             ./App/app/build/outputs/apk/*/*
 
