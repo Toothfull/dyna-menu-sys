@@ -17,10 +17,23 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file( System.getenv( "KEY_STORE_PATH" ) ?: property( "storeFile" ) )
+            storePassword System.getenv( "KEY_STORE_PASSWORD" ) ?: property( "storePassword" )
+            keyAlias System.getenv( "KEY_STORE_KEY_ALIAS" ) ?: property( "keyAlias" )
+            keyPassword System.getenv( "KEY_STORE_KEY_PASSWORD" ) ?: property( "keyPassword" )
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

@@ -1,0 +1,74 @@
+name: Android
+
+on:
+  push:
+    paths:
+      - '.github/workflows/android.yml'
+      - 'Dockerfile'
+    branches:
+      - '**'
+
+env:
+  ARTIFACT_NAME: app
+
+jobs:
+  buildandtest: 
+    name: buildandtest
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        type: ['Debug','Release']
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java/kotlin
+        uses: action/setup-java@v3
+        with: 
+          java-version: 17
+          distribution: zulu
+
+      - name: Set Gradle permissions
+        run: chmod +x ./App/gradlew
+
+      - name: Create keystore
+        id: keys
+        run: |
+          echo "${{ secrets.KEY_STORE }}" | base64 -d > $HOME/keystore.apk
+          echo "path=$HOME/keystore.apk" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        env:
+          KEY_STORE_PATH: ${{ steps.keys.outputs.path }}
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_STORE_KEY_ALIAS: ${{ secrets.KEY_STORE_KEY_ALIAS }}
+          KEY_STORE_KEY_PASSWORD: ${{ secrets.KEY_STORE_KEY_PASSWORD }}
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assemble${{ matrix.variant }}
+          build-root-directory: ./App/
+
+      - name: Run tests
+        env:
+          KEY_STORE_PATH: ${{ steps.keys.outputs.path }}
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_STORE_KEY_ALIAS: ${{ secrets.KEY_STORE_KEY_ALIAS }}
+          KEY_STORE_KEY_PASSWORD: ${{ secrets.KEY_STORE_KEY_PASSWORD }}
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: test
+          build-root-directory: ./App/
+
+      - name: Upload build
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-${{ matrix.variant }}
+          path: |
+            ./App/app/build/outputs/apk/*/*
+
+
+
+

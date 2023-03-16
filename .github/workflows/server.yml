@@ -1,22 +1,45 @@
-name: dyna-menu-system
+name: Server
 
 on:
   push:
     paths:
       - 'Browser/**'
       - 'Server/**'
-      - '.github/workflows/integration-and-unit-test.yml'
+      - '.github/workflows/server.yml'
       - 'Dockerfile'
     branches:
       - '**'
 
 env:
-  ARTIFACT_NAME: dyna-menu-system
+  ARTIFACT_NAME: server
 
 jobs:
+
+  test:
+    name: Test
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Validate
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: ./Browser
+          css: true
+          blacklist: assets
+      - name: Upload log
+        uses: actions/upload-artifact@v3
+        with:
+          name: log
+          path: log.log
+
   build:
     name: Build Server
     runs-on: ubuntu-22.04
+    needs: test
     permissions:
       contents: read
     defaults:
