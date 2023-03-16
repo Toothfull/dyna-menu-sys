@@ -1,14 +1,10 @@
 package uk.dynamenusystem.dynamenusystem
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.provider.Settings
 import android.text.*
-import android.text.style.StyleSpan
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -21,7 +17,6 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import androidx.core.text.toSpannable
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -37,11 +32,8 @@ import org.java_websocket.WebSocket
 import org.java_websocket.client.WebSocketClient
 import org.java_websocket.framing.Framedata
 import org.java_websocket.handshake.ServerHandshake
-import java.net.InetAddress
 import java.net.URI
-import java.net.UnknownHostException
 import java.util.concurrent.Executor
-import java.util.regex.Pattern
 import kotlin.coroutines.EmptyCoroutineContext
 
 @Suppress("DEPRECATION")
@@ -82,8 +74,10 @@ class MenuActivity : AppCompatActivity() {
 					val builder = AlertDialog.Builder(this)
 					builder.setTitle("Network Stats")
 					builder.setMessage(
-						"IP address: " + getIpAddress(applicationContext) + "\n" +
-								"Signal strength (1/100): " + getSignalStrength(applicationContext).toString()
+						"IP address: " + IPandMAC.getIpAddress(applicationContext) + "\n" +
+								"Signal strength (1/100): " + IPandMAC.getSignalStrength(
+							applicationContext
+						).toString()
 					)
 
 					builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
@@ -181,38 +175,8 @@ class MenuActivity : AppCompatActivity() {
 
 	}
 
-	private fun getIpAddress(context: Context): String {
-		val wifiManager = context.applicationContext
-			.getSystemService(WIFI_SERVICE) as WifiManager
-		var ipAddress = intToInetAddress(wifiManager.dhcpInfo.ipAddress).toString()
-		ipAddress = ipAddress.substring(1)
-		return ipAddress
-	}
-
-	private fun getSignalStrength(context: Context): Int {
-		val wifiManager = context.getSystemService(WIFI_SERVICE) as WifiManager
-		val numberOfLevels = 100
-		val wifiInfo = wifiManager.connectionInfo
-		return WifiManager.calculateSignalLevel(wifiInfo.rssi, numberOfLevels)
-	}
-
-	private fun intToInetAddress(hostAddress: Int): InetAddress {
-		val addressBytes = byteArrayOf(
-			(0xff and hostAddress).toByte(),
-			(0xff and (hostAddress shr 8)).toByte(),
-			(0xff and (hostAddress shr 16)).toByte(),
-			(0xff and (hostAddress shr 24)).toByte()
-		)
-		return try {
-			InetAddress.getByAddress(addressBytes)
-		} catch (e: UnknownHostException) {
-			throw AssertionError()
-		}
-	}
-
 	private fun openDrawer() {
 		//Opens the drawer when run
-
 		val biometricManager = BiometricManager.from(this)
 		when (biometricManager.canAuthenticate(DEVICE_CREDENTIAL)) {
 			BiometricManager.BIOMETRIC_SUCCESS ->
@@ -376,29 +340,43 @@ class MenuActivity : AppCompatActivity() {
 
 						mainMenuText.text = ""
 
-						for ( ( lineNumber, currentLine ) in fileLines.withIndex() ) {
+						for ((lineNumber, currentLine) in fileLines.withIndex()) {
 							var currentLine = currentLine.asString
 							var previousLine = ""
 							var nextLine = ""
 
-							if ( lineNumber > 0 ) {
-								previousLine = fileLines[ lineNumber - 1 ].asString
+							if (lineNumber > 0) {
+								previousLine = fileLines[lineNumber - 1].asString
 							} else {
-								Log.d( "DynaMenuSys", "No previous line because this is the first iteration" )
+								Log.d(
+									"DynaMenuSys",
+									"No previous line because this is the first iteration"
+								)
 							}
 
-							if ( lineNumber < ( fileLines.size() - 1 ) ) {
-								nextLine = fileLines[ lineNumber + 1 ].asString
+							if (lineNumber < (fileLines.size() - 1)) {
+								nextLine = fileLines[lineNumber + 1].asString
 							} else {
-								Log.d( "DynaMenuSys", "No next line because this is the last iteration" )
+								Log.d(
+									"DynaMenuSys",
+									"No next line because this is the last iteration"
+								)
 							}
 
 							currentLine = currentLine.trim()
 
-							val html = convertMarkdownToHTML( currentLine, previousLine, nextLine )
-							Log.d( "DynaMenuSys", "Current: '$currentLine' | Previous: '$previousLine' | Next: '$nextLine' | HTML: '$html'" )
+							val html =
+								Markdown.convertMarkdownToHTML(currentLine, previousLine, nextLine)
+							Log.d(
+								"DynaMenuSys",
+								"Current: '$currentLine' | Previous: '$previousLine' | Next: '$nextLine' | HTML: '$html'"
+							)
 
-							mainMenuText.text = String.format( getString( R.string.fileLineAppend ), mainMenuText.text, html )
+							mainMenuText.text = String.format(
+								getString(R.string.fileLineAppend),
+								mainMenuText.text,
+								html
+							)
 
 						}
 						mainMenuText.text = Html.fromHtml(mainMenuText.text.toString().trim())
@@ -406,10 +384,6 @@ class MenuActivity : AppCompatActivity() {
 						mainMenuText.visibility = View.VISIBLE
 					}
 
-					//findViewById<TextView>( R.id.mainMenuText ).text =
-//                    Toast.makeText(applicationContext,
-//                        "Latest document downloaded", Toast.LENGTH_SHORT).show()
-					//findViewById<TextView>( R.id.mainMenuText ).text = data.get("fileLines").asJsonArray
 				} else {
 //                    Toast.makeText(applicationContext,
 //                        "No document was given", Toast.LENGTH_SHORT).show()
@@ -439,149 +413,7 @@ class MenuActivity : AppCompatActivity() {
 			override fun onWebsocketPing(connection: WebSocket?, f: Framedata?) {
 				super.onWebsocketPing(connection, f)
 				Log.d("DynaMenuSys", "Received ping, sending one back to the server...")
-
 			}
-
-			/*override fun onWebsocketPong(connection: WebSocket?, f: Framedata?) {
-				super.onWebsocketPong( connection, f )
-
-				Log.d( "DynaMenuSys", "Pong from the server!! Responding with ping..." )
-
-				connection?.sendPing()
-			}*/
-
 		}
-
-
 	}
-
-	var orderedListCurrentNumber = 1
-
-	fun convertMarkdownToHTML( currentLine: String, previousLine: String, nextLine: String ): String {
-		var newLine = ""
-
-		// block
-		val unorderedListMatch = Regex( "\\* (.+)" ).find( currentLine )
-		if ( unorderedListMatch != null ) {
-			val listText = unorderedListMatch.groupValues[ 1 ]
-
-			/*
-			if ( previousLine == "" ) {
-				newLine += "<ul>"
-			}
-
-			newLine += "<li>$listText</li>"
-
-			if ( nextLine == "" ) {
-				newLine += "</ul>"
-			}
-			*/
-
-			newLine += " • $listText"
-		}
-
-		val orderedListMatch = Regex( "1\\. (.+)" ).find( currentLine )
-		if ( orderedListMatch != null ) {
-			val listText = orderedListMatch.groupValues[ 1 ]
-
-			/*
-			if ( previousLine == "" ) {
-				newLine += "<ol>"
-			}
-
-			newLine += "<li>$listText</li>"
-
-			if ( nextLine == "" ) {
-				newLine += "</ol>"
-			}
-			*/
-
-			if ( previousLine == "" ) {
-				orderedListCurrentNumber = 1
-			}
-
-			newLine += "$orderedListCurrentNumber. $listText"
-
-			orderedListCurrentNumber++
-		}
-
-		if ( newLine == "" ) {
-			newLine = currentLine
-		}
-
-		// inline
-		newLine = newLine.replace("[*]{2}([^*]+)[*]{2}".toRegex(), "<strong>$1</strong>")
-		newLine = newLine.replace("[*]([^*]+)[*]".toRegex(), "<em>$1</em>")
-		newLine = newLine.replace("~{2}([^~]+)~{2}".toRegex(), "<strike>$1</strike>")
-		newLine = newLine.replace("_{2}([^*]+)_{2}".toRegex(), "<u>$1</u>")
-		newLine = newLine.replace("\\[(.*?)\\]\\((.*?)\\)".toRegex(), "<a href=\"$2\">$1</a>")
-		newLine = newLine.replace("\\{(#[0-9A-Fa-f]{6}),(.+?)\\}".toRegex(), "<span style=\"color: $1;\">$2</span>")
-
-		return newLine
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//val builder = AlertDialog.Builder(this)
-//builder.setTitle("Alert title")
-//builder.setMessage("Alert Message")
-//builder.setPositiveButton(R.string.okayPrompt) { _, _ ->
-//}
-//
-//builder.setNegativeButton(R.string.notOkayPrompt) { _, _ ->
-//}
-//builder.show()
-
-
-
-
