@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidTestResultsUserPreferences">
+    <option name="androidTestResultsTableState">
+      <map>
+        <entry key="-312165146">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="41KFMQAUAF" value="120" />
+                  <entry key="Duration" value="90" />
+                  <entry key="MMCVTGKITW" value="120" />
+                  <entry key="Status" value="80" />
+                  <entry key="Tests" value="360" />
+                  <entry key="incar&#10; M39" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -39,6 +39,12 @@ class Markdown {
 			newLine = newLine.replace("_{2}([^*]+)_{2}".toRegex(), "<u>$1</u>")
 			newLine = newLine.replace("\\[(.*?)\\]\\((.*?)\\)".toRegex(), "<a href=\"$2\">$1</a>")
 			newLine = newLine.replace("\\{(#[0-9A-Fa-f]{6}),(.+?)\\}".toRegex(), "<span style=\"color: $1;\">$2</span>")
+			newLine = newLine.replace("^# (.+)$".toRegex(), "<h1>$1</h1>")
+			newLine = newLine.replace("^## (.+)$".toRegex(), "<h2>$1</h2>")
+			newLine = newLine.replace("^### (.+)$".toRegex(), "<h3>$1</h3>")
+			newLine = newLine.replace("^#### (.+)$".toRegex(), "<h4>$1</h4>")
+			newLine = newLine.replace("^##### (.+)$".toRegex(), "<h5>$1</h5>")
+			newLine = newLine.replace("^###### (.+)$".toRegex(), "<h6>$1</h6>")
 
 			return newLine
 		}
