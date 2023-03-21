@@ -46,3 +46,5 @@ SESSION_DOMAIN = ""
 1. Configure your android device to have a passcode
 2. Move the .APK file to your chosen android device and install it
 3. Connect your android device to your Raspberry Pi's Wifi Network
+
+You should now be able to see your menu on your android device!
